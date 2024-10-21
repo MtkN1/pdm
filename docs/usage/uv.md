@@ -1,30 +1,30 @@
-# Use uv (Experimental)
+# uv を使用する (実験的)
 
 +++ 2.19.0
 
-PDM has experimental support for [uv](https://github.com/astral-sh/uv) as the resolver and installer. To enable it:
+PDM は、リゾルバおよびインストーラとして [uv](https://github.com/astral-sh/uv) を実験的にサポートしています。有効にするには:
 
 ```
 pdm config use_uv true
 ```
 
-PDM will automatically detect the `uv` binary on your system. You need to install `uv` first. See [uv's installation guide](https://docs.astral.sh/uv/getting-started/installation/) for more details.
+PDM はシステム上の `uv` バイナリを自動的に検出します。最初に `uv` をインストールする必要があります。詳細については、[uv のインストールガイド](https://docs.astral.sh/uv/getting-started/installation/) を参照してください。
 
-## Reuse the Python installations of uv
+## uv の Python インストールを再利用する
 
-uv also supports installing Python interpreters. To avoid overhead, you can configure PDM to reuse the Python installations of uv by:
+uv は Python インタープリターのインストールもサポートしています。オーバーヘッドを避けるために、PDM を構成して uv の Python インストールを再利用することができます:
 
 ```
 pdm config python.install_root $(uv python dir)
 ```
 
-## Limitations
+## 制限事項
 
-Despite the significant performance improvements brought by uv, it is important to note the following limitations:
+uv による大幅なパフォーマンス向上にもかかわらず、次の制限事項に注意することが重要です:
 
-- The cache files are stored in uv's own cache directory, and you have to use `uv` command to manage them.
-- PEP 582 local packages layout is not supported.
-- `inherit_metadata` lock strategy is not supported by uv. This will be ignored when writing to the lock file.
-- Update strategies other than `all` and `reuse` are not supported.
-- Editable requirement must be a local path. Requirements like `-e git+<git_url>` are not supported.
-- `overrides` and `excludes` settings under `[tool.pdm.resolution]` are not supported.
+- キャッシュファイルは uv 独自のキャッシュディレクトリに保存され、管理するには `uv` コマンドを使用する必要があります。
+- PEP 582 ローカルパッケージレイアウトはサポートされていません。
+- `inherit_metadata` ロック戦略は uv ではサポートされていません。ロックファイルに書き込む際に無視されます。
+- `all` および `reuse` 以外の更新戦略はサポートされていません。
+- 編集可能な要件はローカルパスでなければなりません。`-e git+<git_url>` のような要件はサポートされていません。
+- `[tool.pdm.resolution]` の下の `overrides` および `excludes` 設定はサポートされていません。

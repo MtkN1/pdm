@@ -1,26 +1,25 @@
-# Build and Publish
+# ビルドと公開
 
-If you are developing a library, after adding dependencies to your project, and finishing the coding, it's time to build and publish your package. It is as simple as one command:
+ライブラリを開発している場合、プロジェクトに依存関係を追加し、コーディングを完了した後、パッケージをビルドして公開する時が来ました。これは、次のコマンド 1 つで簡単に行えます:
 
 ```bash
 pdm publish
 ```
 
-This will automatically build a wheel and a source distribution(sdist), and upload them to the PyPI index.
+これにより、自動的にホイールとソースディストリビューション (sdist) がビルドされ、PyPI インデックスにアップロードされます。
 
-PyPI requires API tokens to publish packages, you can use `__token__` as the username and API token as the password.
+PyPI では、パッケージを公開するために API トークンが必要です。ユーザー名として `__token__` を使用し、パスワードとして API トークンを使用できます。
 
-To specify another repository other than PyPI, use the `--repository` option, the parameter can be either the upload URL or the name of the repository stored in the config file.
+PyPI 以外のリポジトリを指定するには、`--repository` オプションを使用します。パラメータは、アップロード URL または構成ファイルに保存されたリポジトリの名前のいずれかです。
 
 ```bash
 pdm publish --repository testpypi
 pdm publish --repository https://test.pypi.org/legacy/
 ```
 
-## Publish with trusted publishers
+## 信頼できるパブリッシャーで公開する
 
-You can configure trusted publishers for PyPI so that you don't need to expose the PyPI tokens in the release workflow. To do this, follow
-[the guide](https://docs.pypi.org/trusted-publishers/adding-a-publisher/) to add a publisher and write the GitHub Actions workflow as below:
+リリースワークフローで PyPI トークンを公開する必要がないように、PyPI に信頼できるパブリッシャーを構成できます。これを行うには、[ガイド](https://docs.pypi.org/trusted-publishers/adding-a-publisher/) に従ってパブリッシャーを追加し、以下のように GitHub Actions ワークフローを記述します:
 
 ```yaml
 on:
@@ -46,17 +45,17 @@ jobs:
         run: pdm publish
 ```
 
-## Build and publish separately
+## ビルドと公開を別々に行う
 
-You can also build the package and upload it in two steps, to allow you to inspect the built artifacts before uploading.
+パッケージをビルドしてアップロードするのを 2 つのステップで行うこともできます。これにより、アップロード前にビルドされたアーティファクトを検査することができます。
 
 ```bash
 pdm build
 ```
 
-There are many options to control the build process, depending on the backend used. Refer to the [build configuration](../reference/build.md) section for more details.
+使用されるバックエンドに応じて、ビルドプロセスを制御するための多くのオプションがあります。詳細については、[ビルド構成](../reference/build.md) セクションを参照してください。
 
-The artifacts will be created at `dist/` and able to upload to PyPI.
+アーティファクトは `dist/` に作成され、PyPI にアップロードできます。
 
 ```bash
 pdm publish --no-build

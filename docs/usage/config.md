@@ -1,90 +1,89 @@
-# Configure the Project
+# プロジェクトを構成する
 
-PDM's `config` command works just like `git config`, except that `--list` isn't needed to
-show configurations.
+PDM の `config` コマンドは `git config` と同様に機能しますが、構成を表示するために `--list` は必要ありません。
 
-Show the current configurations:
+現在の構成を表示します:
 
 ```bash
 pdm config
 ```
 
-Get one single configuration:
+単一の構成を取得します:
 
 ```bash
 pdm config pypi.url
 ```
 
-Change a configuration value and store in home configuration:
+構成値を変更し、ホーム構成に保存します:
 
 ```bash
 pdm config pypi.url "https://test.pypi.org/simple"
 ```
 
-By default, the configuration are changed globally, if you want to make the config seen by this project only, add a `--local` flag:
+デフォルトでは、構成はグローバルに変更されますが、このプロジェクトでのみ構成を表示する場合は、`--local` フラグを追加します:
 
 ```bash
 pdm config --local pypi.url "https://test.pypi.org/simple"
 ```
 
-Any local configurations will be stored in `pdm.toml` under the project root directory.
+ローカル構成はプロジェクトルートディレクトリの `pdm.toml` に保存されます。
 
-## Configuration files
+## 構成ファイル
 
-The configuration files are searched in the following order:
+構成ファイルは次の順序で検索されます:
 
-1. `<PROJECT_ROOT>/pdm.toml` - The project configuration
-2. `<CONFIG_ROOT>/config.toml` - The home configuration
-3. `<SITE_CONFIG_ROOT>/config.toml` - The site configuration
+1. `<PROJECT_ROOT>/pdm.toml` - プロジェクト構成
+2. `<CONFIG_ROOT>/config.toml` - ホーム構成
+3. `<SITE_CONFIG_ROOT>/config.toml` - サイト構成
 
-where `<CONFIG_ROOT>` is:
+`<CONFIG_ROOT>` は次の場所です:
 
-- `$XDG_CONFIG_HOME/pdm` (`~/.config/pdm` in most cases) on Linux as defined by [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
-- `~/Library/Application Support/pdm` on macOS as defined by [Apple File System Basics](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html)
-- `%USERPROFILE%\AppData\Local\pdm` on Windows as defined in [Known folders](https://docs.microsoft.com/en-us/windows/win32/shell/known-folders)
+- Linux では [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) で定義されているように `$XDG_CONFIG_HOME/pdm` (`ほとんどの場合 ~/.config/pdm`)
+- macOS では [Apple File System Basics](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html) で定義されているように `~/Library/Application Support/pdm`
+- Windows では [Known folders](https://docs.microsoft.com/en-us/windows/win32/shell/known-folders) で定義されているように `%USERPROFILE%\AppData\Local\pdm`
 
-and `<SITE_CONFIG_ROOT>` is:
+`<SITE_CONFIG_ROOT>` は次の場所です:
 
-- `$XDG_CONFIG_DIRS/pdm` (`/etc/xdg/pdm` in most cases) on Linux as defined by [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
-- `/Library/Application Support/pdm` on macOS as defined by [Apple File System Basics](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html)
-- `C:\ProgramData\pdm\pdm` on Windows as defined in [Known folders](https://docs.microsoft.com/en-us/windows/win32/shell/known-folders)
+- Linux では [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) で定義されているように `$XDG_CONFIG_DIRS/pdm` (`ほとんどの場合 /etc/xdg/pdm`)
+- macOS では [Apple File System Basics](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html) で定義されているように `/Library/Application Support/pdm`
+- Windows では [Known folders](https://docs.microsoft.com/en-us/windows/win32/shell/known-folders) で定義されているように `C:\ProgramData\pdm\pdm`
 
-If `-g/--global` option is used, the first item will be replaced by `<CONFIG_ROOT>/global-project/pdm.toml`.
+`-g/--global` オプションが使用される場合、最初の項目は `<CONFIG_ROOT>/global-project/pdm.toml` に置き換えられます。
 
-You can find all available configuration items in [Configuration Page](../reference/configuration.md).
+利用可能なすべての構成項目は [構成ページ](../reference/configuration.md) にあります。
 
-## Configure the Python finder
+## Python ファインダーを構成する
 
-By default, PDM will try to find Python interpreters in the following sources:
+デフォルトでは、PDM は次のソースで Python インタープリターを検索します:
 
-- `venv`: The PDM virtualenv location
-- `path`: The `PATH` environment variable
-- `pyenv`: The [pyenv](https://github.com/pyenv/pyenv) install root
-- `rye`: The [rye](https://rye-up.com/) toolchain install root
-- `asdf`: The [asdf](https://asdf-vm.com/) python install root
-- `winreg`: The Windows registry
+- `venv`: PDM 仮想環境の場所
+- `path`: `PATH` 環境変数
+- `pyenv`: [pyenv](https://github.com/pyenv/pyenv) インストールルート
+- `rye`: [rye](https://rye-up.com/) ツールチェーンインストールルート
+- `asdf`: [asdf](https://asdf-vm.com/) python インストールルート
+- `winreg`: Windows レジストリ
 
-You can unselect some of them or change the order by setting `python.providers` config key:
+いくつかのソースを選択解除したり、順序を変更したりするには、`python.providers` 構成キーを設定します:
 
 ```bash
-pdm config python.providers rye   # Rye source only
-pdm config python.providers pyenv,asdf  # pyenv and asdf
+pdm config python.providers rye   # Rye ソースのみ
+pdm config python.providers pyenv,asdf  # pyenv と asdf
 ```
 
-## Allow prereleases in resolution result
+## 解決結果にプレリリースを許可する
 
-By default, `pdm`'s dependency resolver will ignore prereleases unless there are no stable versions for the given version range of a dependency. This behavior can be changed by setting `allow-prereleases` to `true` in `[tool.pdm.resolution]` table:
+デフォルトでは、`pdm` の依存関係解決ツールは、依存関係の指定されたバージョン範囲に安定版がない場合を除き、プレリリースを無視します。この動作は `[tool.pdm.resolution]` テーブルで `allow-prereleases` を `true` に設定することで変更できます:
 
 ```toml
 [tool.pdm.resolution]
 allow-prereleases = true
 ```
 
-## Configure the package indexes
+## パッケージインデックスを構成する
 
-You can tell PDM where to to find the packages by either specifying sources in the `pyproject.toml` or via `pypi.*` configurations.
+PDM にパッケージを見つける場所を指定するには、`pyproject.toml` にソースを追加するか、`pypi.*` 構成を介して行います。
 
-Add sources in `pyproject.toml`:
+`pyproject.toml` にソースを追加します:
 
 ```toml
 [[tool.pdm.source]]
@@ -93,30 +92,30 @@ url = "https://private.pypi.org/simple"
 verify_ssl = true
 ```
 
-Change the default index via `pdm config`:
+`pdm config` を介してデフォルトのインデックスを変更します:
 
 ```bash
 pdm config pypi.url "https://test.pypi.org/simple"
 ```
 
-Add extra indexes via `pdm config`:
+`pdm config` を介して追加のインデックスを追加します:
 
 ```bash
 pdm config pypi.extra.url "https://extra.pypi.org/simple"
 ```
 
-The available configuration options are:
+利用可能な構成オプションは次のとおりです:
 
-- `url`: The URL of the index
-- `verify_ssl`: (Optional)Whether to verify SSL certificates, default to true
-- `username`: (Optional)The username for the index
-- `password`: (Optional)The password for the index
-- `type`: (Optional) index or find_links, default to index
+- `url`: インデックスの URL
+- `verify_ssl`: (オプション) SSL 証明書を検証するかどうか、デフォルトは true
+- `username`: (オプション) インデックスのユーザー名
+- `password`: (オプション) インデックスのパスワード
+- `type`: (オプション) index または find_links、デフォルトは index
 
-??? note "About the source types"
-    By default, all sources are [PEP 503](https://www.python.org/dev/peps/pep-0503/) style "indexes" like pip's `--index-url` and `--extra-index-url`, however, you can set the type to `find_links` which contains files or links to be looked for directly. See [this answer](https://stackoverflow.com/a/46651848) for the difference between the two types.
+??? note "ソースタイプについて"
+    デフォルトでは、すべてのソースは pip の `--index-url` および `--extra-index-url` のような [PEP 503](https://www.python.org/dev/peps/pep-0503/) スタイルの "インデックス" と見なされますが、タイプを `find_links` に設定することで、ファイルやリンクを直接検索することができます。2 つのタイプの違いについては [この回答](https://stackoverflow.com/a/46651848) を参照してください。
 
-    For example, to use a local directory as a source:
+    たとえば、ローカルディレクトリをソースとして使用するには:
 
     ```toml
     [[tool.pdm.source]]
@@ -125,16 +124,16 @@ The available configuration options are:
     type = "find_links"
     ```
 
-These configurations are read in the following order to build the final source list:
+これらの構成は次の順序で読み取られ、最終的なソースリストが構築されます:
 
-- `pypi.url`, if `pypi` doesn't appear in the `name` field of any source in `pyproject.toml`
-- Sources in `pyproject.toml`
-- `pypi.<name>.url` in PDM config.
+- `pypi.url`、`pyproject.toml` の `name` フィールドに `pypi` が表示されない場合
+- `pyproject.toml` のソース
+- PDM 構成の `pypi.<name>.url`
 
-You can set `pypi.ignore_stored_index` to `true` to disable all additional indexes from the PDM config and only use those specified in `pyproject.toml`.
+`pypi.ignore_stored_index` を `true` に設定して、PDM 構成からのすべての追加インデックスを無効にし、`pyproject.toml` に指定されたもののみを使用することができます。
 
-!!! TIP "Disable the default PyPI index"
-    If you want to omit the default PyPI index, just set the source name to `pypi` and that source will **replace** it.
+!!! TIP "デフォルトの PyPI インデックスを無効にする"
+    デフォルトの PyPI インデックスを省略したい場合は、ソース名を `pypi` に設定するだけで、そのソースが **置き換え** られます。
 
     ```toml
     [[tool.pdm.source]]
@@ -143,16 +142,16 @@ You can set `pypi.ignore_stored_index` to `true` to disable all additional index
     name = "pypi"
     ```
 
-??? note "Indexes in `pyproject.toml` or config"
-    When you want to share the indexes with other people who are going to use the project, you should add them in `pyproject.toml`.
-    For example, some packages only exist in a private index and can't be installed if someone doesn't configure the index.
-    Otherwise, store them in the local config which won't be seen by others.
+??? note "pyproject.toml または構成のインデックス"
+    プロジェクトを使用する他の人とインデックスを共有したい場合は、`pyproject.toml` に追加する必要があります。
+    たとえば、いくつかのパッケージはプライベートインデックスにのみ存在し、インデックスを構成しないとインストールできません。
+    それ以外の場合は、他の人には表示されないローカル構成に保存します。
 
-### Respect the order of the sources
+### ソースの順序を尊重する
 
-By default, all sources are considered equal, packages from them are sorted by the version and wheel tags, the most matching one with the highest version is selected.
+デフォルトでは、すべてのソースは同等と見なされ、パッケージはバージョンとホイールタグでソートされ、最も一致するものが選択されます。
 
-In some cases you may want to return packages from the preferred source, and search for others if they are missing from the former source. PDM supports this by reading the configuration `respect-source-order`. For example:
+場合によっては、優先ソースからパッケージを返し、他のソースから見つからない場合に検索することを望むかもしれません。PDM は `respect-source-order` 構成を読み取ることでこれをサポートします。たとえば:
 
 ```toml
 [tool.pdm.resolution]
@@ -167,11 +166,11 @@ name = "pypi"
 url = "https://pypi.org/simple"
 ```
 
-A package will be searched from the `private` index first, and only if no matching version is found there, it will be searched from the `pypi` index.
+パッケージは最初に `private` インデックスから検索され、一致するバージョンが見つからない場合にのみ、`pypi` インデックスから検索されます。
 
-### Specify index for individual packages
+### 個々のパッケージのインデックスを指定する
 
-You can bind packages to specific sources with `include_packages` and `exclude_packages` config under `tool.pdm.source` table.
+`include_packages` および `exclude_packages` 構成を使用して、パッケージを特定のソースにバインドできます。
 
 ```toml
 [[tool.pdm.source]]
@@ -181,13 +180,13 @@ include_packages = ["foo", "foo-*"]
 exclude_packages = ["bar-*"]
 ```
 
-With the above configuration, any package matching `foo` or `foo-*` will only be searched from the `private` index, and any package matching `bar-*` will be searched from all indexes except `private`.
+上記の構成では、`foo` または `foo-*` に一致するパッケージは `private` インデックスからのみ検索され、`bar-*` に一致するパッケージは `private` を除くすべてのインデックスから検索されます。
 
-Both `include_packages` and `exclude_packages` are optional and accept a list of glob patterns, and `include_packages` takes effect exclusively when the pattern matches.
+`include_packages` および `exclude_packages` はどちらもオプションであり、グロブパターンのリストを受け入れ、パターンが一致する場合に `include_packages` が排他的に適用されます。
 
-### Store credentials with the index
+### インデックスとともに資格情報を保存する
 
-You can specify credentials in the URL with `${ENV_VAR}` variable expansion and these variables will be read from the environment variables:
+`${ENV_VAR}` 変数展開を使用して URL に資格情報を指定でき、これらの変数は環境変数から読み取られます:
 
 ```toml
 [[tool.pdm.source]]
@@ -195,30 +194,30 @@ name = "private"
 url = "https://${PRIVATE_PYPI_USERNAME}:${PRIVATE_PYPI_PASSWORD}@private.pypi.org/simple"
 ```
 
-### Configure HTTPS certificates
+### HTTPS 証明書を構成する
 
-You can use a custom CA bundle or client certificate for HTTPS requests. It can be configured for both indexes(for package download) and repositories(for upload):
+HTTPS リクエスト用にカスタム CA バンドルまたはクライアント証明書を使用できます。これは、インデックス（パッケージのダウンロード用）とリポジトリ（アップロード用）の両方に構成できます:
 
 ```bash
 pdm config pypi.ca_certs /path/to/ca_bundle.pem
 pdm config repository.pypi.ca_certs /path/to/ca_bundle.pem
 ```
 
-Besides, it is possible to use the system trust store, instead of the bundled certifi certificates for verifying HTTPS certificates. This approach will typically support corporate proxy certificates without additional configuration.
+さらに、標準の certifi 証明書の代わりにシステムの信頼ストアを使用して HTTPS 証明書を検証することも可能です。このアプローチは、追加の構成なしで企業プロキシ証明書をサポートすることが一般的です。
 
-To use `truststore`, you need Python 3.10 or newer and install `truststore` into the same environment as PDM:
+`truststore` を使用するには、Python 3.10 以降が必要であり、`truststore` を PDM と同じ環境にインストールする必要があります:
 
 ```bash
 pdm self add truststore
 ```
 
-In addition, CA certificates specified by env vars `REQUESTS_CA_BUNDLE` and `CURL_CA_BUNDLE` will be used if they are set.
+さらに、`REQUESTS_CA_BUNDLE` および `CURL_CA_BUNDLE` 環境変数で指定された CA 証明書も設定されている場合に使用されます。
 
-### Index configuration merging
+### インデックス構成のマージ
 
-Index configurations are merged with the `name` field of `[[tool.pdm.source]]` table or `pypi.<name>` key in the config file.
-This enables you to store the url and credentials separately, to avoid secrets being exposed in the source control.
-For example, if you have the following configuration:
+インデックス構成は `[[tool.pdm.source]]` テーブルの `name` フィールドまたは構成ファイルの `pypi.<name>` キーでマージされます。
+これにより、URL と資格情報を別々に保存して、ソース管理で秘密が公開されないようにすることができます。
+たとえば、次の構成がある場合:
 
 ```toml
 [[tool.pdm.source]]
@@ -226,44 +225,44 @@ name = "private"
 url = "https://private.pypi.org/simple"
 ```
 
-You can store the credentials in the config file:
+構成ファイルに資格情報を保存できます:
 
 ```bash
 pdm config pypi.private.username "foo"
 pdm config pypi.private.password "bar"
 ```
 
-PDM can retrieve the configurations for `private` index from both places.
+PDM は `private` インデックスの構成を両方の場所から取得できます。
 
-If the index requires a username and password, but they can't be found from the environment variables nor config file, PDM will prompt you to enter them. Or, if `keyring` is installed, it will be used as the credential store. PDM can use the `keyring` from either the installed package or the CLI.
+インデックスにユーザー名とパスワードが必要ですが、環境変数や構成ファイルから見つからない場合、PDM は入力を求めます。また、`keyring` がインストールされている場合は、資格情報ストアとして使用されます。PDM はインストールされたパッケージまたは CLI からの `keyring` を使用できます。
 
-## Central installation caches
+## 中央インストールキャッシュ
 
-If a package is required by many projects on the system, each project has to keep its own copy. This can be a waste of disk space, especially for data science and machine learning projects.
+システム上の多くのプロジェクトでパッケージが必要な場合、各プロジェクトは独自のコピーを保持する必要があります。これは、特にデータサイエンスや機械学習プロジェクトでは、ディスクスペースの無駄になる可能性があります。
 
-PDM supports _caching_ installations of the same wheel by installing it in a centralized package repository and linking to that installation in different projects. To enable it, run:
+PDM は、中央パッケージリポジトリにインストールして、異なるプロジェクトでそのインストールにリンクすることにより、同じホイールのインストールをキャッシュすることをサポートします。有効にするには、次のコマンドを実行します:
 
 ```bash
 pdm config install.cache on
 ```
 
-It can be enabled on a per-project basis by adding the `--local` option to the command.
+コマンドに `--local` オプションを追加することで、プロジェクトごとに有効にすることができます。
 
-The caches are located in `$(pdm config cache_dir)/packages`. You can view the cache usage with `pdm cache info`. Note that the cached installations are managed automatically -- they will be deleted if they are not linked to any projects. Manually deleting the caches from disk may break some projects on the system.
+キャッシュは `$(pdm config cache_dir)/packages` にあります。`pdm cache info` を使用してキャッシュの使用状況を表示できます。キャッシュされたインストールは自動的に管理されるため、プロジェクトにリンクされていない場合は削除されることに注意してください。ディスクからキャッシュを手動で削除すると、システム上の一部のプロジェクトが壊れる可能性があります。
 
-In addition, several different link methods are supported:
+さらに、いくつかの異なるリンク方法がサポートされています:
 
-- `symlink`(default), create symlinks to the package files.
-- `hardlink`, create hard links to the package files of the cache entry.
+- `symlink`（デフォルト）、パッケージファイルへのシンボリックリンクを作成します。
+- `hardlink`、キャッシュエントリのパッケージファイルへのハードリンクを作成します。
 
-You can switch between them by running `pdm config [--local] install.cache_method <method>`.
+次のコマンドを実行して、リンク方法を切り替えることができます: `pdm config [--local] install.cache_method <method>`。
 
 !!! note
-    Only packages installed from one of the package sources can be cached.
+    パッケージソースのいずれかからインストールされたパッケージのみがキャッシュされます。
 
-## Configure the repositories for upload
+## アップロード用のリポジトリを構成する
 
-When using the [`pdm publish`](../reference/cli.md#publish) command, it reads the repository secrets from the **global** config file(`<CONFIG_ROOT>/config.toml`). The content of the config is as follows:
+[`pdm publish`](../reference/cli.md#publish) コマンドを使用する場合、リポジトリの秘密は **グローバル** 構成ファイル (`<CONFIG_ROOT>/config.toml`) から読み取られます。構成ファイルの内容は次のとおりです:
 
 ```toml
 [repository.pypi]
@@ -277,7 +276,7 @@ password = "<secret>"
 ca_certs = "/path/to/custom-cacerts.pem"
 ```
 
-Alternatively, these credentials can be provided with env vars:
+または、これらの資格情報を環境変数で提供できます:
 
 ```bash
 export PDM_PUBLISH_REPO=...
@@ -286,17 +285,16 @@ export PDM_PUBLISH_PASSWORD=...
 export PDM_PUBLISH_CA_CERTS=...
 ```
 
-A PEM-encoded Certificate Authority bundle (`ca_certs`) can be used for local / custom PyPI repositories where the server certificate is not signed by the standard [certifi](https://github.com/certifi/python-certifi/blob/master/certifi/cacert.pem) CA bundle.
+PEM エンコードされた証明書認証局バンドル (`ca_certs`) は、サーバー証明書が標準の [certifi](https://github.com/certifi/python-certifi/blob/master/certifi/cacert.pem) CA バンドルによって署名されていないローカル/カスタム PyPI リポジトリに使用できます。
 
 !!! NOTE
-    Repositories are different from indexes in the previous section. Repositories are for publishing while indexes are for locking
-    and resolving. They don't share the configuration.
+    リポジトリは前のセクションのインデックスとは異なります。リポジトリは公開用であり、インデックスはロックおよび解決用です。これらは構成を共有しません。
 
 !!! TIP
-    You don't need to configure the `url` for `pypi` and `testpypi` repositories, they are filled by default values.
-    The username, password, and certificate authority bundle can be passed in from the command line for `pdm publish` via `--username`, `--password`, and `--ca-certs`, respectively.
+    `pypi` および `testpypi` リポジトリの `url` を構成する必要はありません。デフォルト値で埋められます。
+    ユーザー名、パスワード、および証明書認証局バンドルは、それぞれ `--username`、`--password`、および `--ca-certs` を介して `pdm publish` のコマンドラインから渡すことができます。
 
-To change the repository config from the command line, use the [`pdm config`](../reference/cli.md#config) command:
+コマンドラインからリポジトリ構成を変更するには、[`pdm config`](../reference/cli.md#config) コマンドを使用します:
 
 ```bash
 pdm config repository.pypi.username "__token__"
@@ -306,27 +304,27 @@ pdm config repository.company.url "https://pypi.company.org/legacy/"
 pdm config repository.company.ca_certs "/path/to/custom-cacerts.pem"
 ```
 
-## Password management with keyring
+## keyring を使用したパスワード管理
 
-When keyring is available and supported, the passwords will be stored to and retrieved from the keyring instead of writing to the config file. This supports both indexes and upload repositories. The service name will be `pdm-pypi-<name>` for an index and `pdm-repository-<name>` for a repository.
+keyring が利用可能でサポートされている場合、パスワードは構成ファイルに書き込む代わりに keyring に保存および取得されます。これは、インデックスとアップロードリポジトリの両方をサポートします。サービス名は、インデックスの場合は `pdm-pypi-<name>`、リポジトリの場合は `pdm-repository-<name>` になります。
 
-You can enable keyring by either installing `keyring` into the same environment as PDM or installing globally. To add keyring to the PDM environment:
+keyring を有効にするには、PDM と同じ環境に `keyring` をインストールするか、グローバルにインストールします。PDM 環境に keyring を追加するには:
 
 ```bash
 pdm self add keyring
 ```
 
-Alternatively, if you have installed a copy of keyring globally, make sure the CLI is exposed in the `PATH` env var to make it discoverable by PDM:
+または、keyring をグローバルにインストールしている場合は、CLI が `PATH` 環境変数に公開されていることを確認して、PDM によって検出可能にします:
 
 ```bash
 export PATH=$PATH:path/to/keyring/bin
 ```
 
-### Password management with keyring for Azure Artifacts
+### Azure Artifacts 用の keyring を使用したパスワード管理
 
-When trying to authenticate towards azure artifacts, this can be achieved by either using AD groups to authenticate: `pdm self add keyring artifacts-keyring` ensuring that artifacts-keyring will be used for authentication.
+Azure Artifacts に対して認証を試みる場合、AD グループを使用して認証することができます: `pdm self add keyring artifacts-keyring` を実行して、認証に artifacts-keyring が使用されることを確認します。
 
-And then adding the artifacts url to `pyproject.toml`
+次に、アーティファクトの URL を `pyproject.toml` に追加します
 
 ```toml
 [[tool.pdm.source]]
@@ -334,24 +332,24 @@ name = "NameOfFeed"
 url = "https://pkgs.dev.azure.com/[org name]/_packaging/[feed name]/pypi/simple/"
 ```
 
-## Exclude specific packages and their dependencies from the lock file
+## ロックファイルから特定のパッケージとその依存関係を除外する
 
 +++ 2.12.0
 
-Sometimes you don't even want to include certain packages in the locked file because you are sure they won't be used by any code. In this case, you can completely skip them and their dependencies during dependency resolution:
+コードが使用しないことが確実な特定のパッケージをロックファイルに含めたくない場合があります。この場合、依存関係の解決中にそれらを完全にスキップできます:
 
 ```toml
 [tool.pdm.resolution]
 excludes = ["requests"]
 ```
 
-With this config, `requests` will not be locked in the lockfile, and its dependencies such as `urllib3` and `idna` will also not show up in the resolution result, if not depended on by other packages. The installer will not be able to pick them up either.
+この構成を使用すると、`requests` はロックファイルにロックされず、他のパッケージによって依存されていない限り、その依存関係（`urllib3` や `idna` など）も解決結果に表示されません。インストーラーはそれらをピックアップできません。
 
-## Passing constant arguments to every pdm invocation
+## すべての pdm 呼び出しに定数引数を渡す
 
 +++ 2.7.0
 
-You can add extra options passed to individual pdm commands by `tool.pdm.options` configuration:
+個々の pdm コマンドに渡される追加オプションを `tool.pdm.options` 構成で追加できます:
 
 ```toml
 [tool.pdm.options]
@@ -360,14 +358,14 @@ install = ["--no-self"]
 lock = ["--no-cross-platform"]
 ```
 
-These options will be added right after the command name. For instance, based on the configuration above,
-`pdm add requests` is equivalent to `pdm add --no-isolation --no-self requests`.
+これらのオプションはコマンド名の直後に追加されます。たとえば、上記の構成に基づいて、
+`pdm add requests` は `pdm add --no-isolation --no-self requests` と同等です。
 
-## Ignore package warnings
+## パッケージ警告を無視する
 
 +++ 2.10.0
 
-You may see some warnings when resolving dependencies like this:
+依存関係を解決するときに次のような警告が表示されることがあります:
 
 ```bash
 PackageWarning: Skipping scipy@1.10.0 because it requires Python
@@ -377,12 +375,12 @@ Narrow down the `requires-python` range to include this version. For example, ">
 Use `-q/--quiet` to suppress these warnings, or ignore them per-package with `ignore_package_warnings` config in [tool.pdm] table.
 ```
 
-This is because the supported range of Python versions of the package doesn't cover the `requires-python` value specified in the `pyproject.toml`.
-You can ignore these warnings in a per-package basis by adding the following config:
+これは、パッケージのサポートされている Python バージョンの範囲が `pyproject.toml` に指定された `requires-python` 値をカバーしていないためです。
+これらの警告をパッケージごとに無視するには、次の構成を追加します:
 
 ```toml
 [tool.pdm]
 ignore_package_warnings = ["scipy", "tensorflow-*"]
 ```
 
-Where each item is a case-insensitive glob pattern to match the package name.
+各項目はパッケージ名に一致する大文字小文字を区別しないグロブパターンです。

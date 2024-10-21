@@ -1,64 +1,63 @@
-# Lock file
+# ロックファイル
 
-PDM installs packages exclusively from the existing lock file named `pdm.lock`. This file serves as the sole source of truth for installing dependencies. The lock file contains essential information such as:
+PDM は、既存のロックファイル `pdm.lock` からのみパッケージをインストールします。このファイルは、依存関係をインストールするための唯一の信頼できるソースとして機能します。ロックファイルには、次のような重要な情報が含まれています。
 
-- All packages and their versions
-- The file names and hashes of the packages
-- Optionally, the origin URLs to download the packages (See also: [Static URLs](#static-urls))
-- The dependencies and markers of each package (See also: [Inherit the metadata from parents](#inherit-the-metadata-from-parents))
+- すべてのパッケージとそのバージョン
+- パッケージのファイル名とハッシュ
+- オプションで、パッケージをダウンロードするための元の URL（参照：[静的 URL](#static-urls)）
+- 各パッケージの依存関係とマーカー（参照：[親からメタデータを継承する](#inherit-the-metadata-from-parents)）
 
-To create or overwrite the lock file, run [`pdm lock`](../reference/cli.md#lock), and it supports the same [update strategies](./dependency.md#about-update-strategy) as [`pdm add`](../reference/cli.md#add). In addition, the [`pdm install`](../reference/cli.md#install) and [`pdm add`](../reference/cli.md#add) commands will also automatically create the `pdm.lock` file.
+ロックファイルを作成または上書きするには、[`pdm lock`](../reference/cli.md#lock) を実行します。これは、[`pdm add`](../reference/cli.md#add) と同じ [更新戦略](./dependency.md#about-update-strategy) をサポートしています。さらに、[`pdm install`](../reference/cli.md#install) および [`pdm add`](../reference/cli.md#add) コマンドも自動的に `pdm.lock` ファイルを作成します。
 
-??? NOTE "Should I add `pdm.lock` to version control?"
+??? NOTE "`pdm.lock` をバージョン管理に追加するべきですか？"
 
-    It depends. If your goal is to make CI use the same dependency versions as local development and avoid unexpected failures, you should add the `pdm.lock` file to version control. Otherwise, if your project is a library and you want CI to mimic the installation on user site to ensure that the current version on PyPI doesn't break anything, then do not submit the `pdm.lock` file.
+    それは状況によります。CI がローカル開発と同じ依存関係バージョンを使用し、予期しない失敗を回避したい場合は、`pdm.lock` ファイルをバージョン管理に追加するべきです。そうでない場合、プロジェクトがライブラリであり、CI がユーザーサイトでのインストールを模倣して、現在のバージョンが PyPI で何も壊さないことを確認したい場合は、`pdm.lock` ファイルを提出しないでください。
 
-## Install the packages pinned in lock file
+## ロックファイルに固定されたパッケージをインストールする
 
-There are a few similar commands to do this job with slight differences:
+これを行うためのいくつかの類似したコマンドがありますが、わずかな違いがあります。
 
-- [`pdm sync`](../reference/cli.md#sync) installs packages from the lock file.
-- [`pdm update`](../reference/cli.md#update) will update the lock file, then `pdm sync`.
-- [`pdm install`](../reference/cli.md#install) will check the project file for changes, update the lock file if needed, then `pdm sync`.
+- [`pdm sync`](../reference/cli.md#sync) はロックファイルからパッケージをインストールします。
+- [`pdm update`](../reference/cli.md#update) はロックファイルを更新し、その後 `pdm sync` を実行します。
+- [`pdm install`](../reference/cli.md#install) はプロジェクトファイルの変更を確認し、必要に応じてロックファイルを更新し、その後 `pdm sync` を実行します。
 
-`pdm sync` also has a few options to manage installed packages:
+`pdm sync` には、インストールされたパッケージを管理するためのいくつかのオプションもあります。
 
-- `--clean`: will remove packages no longer in the lockfile
-- `--clean-unselected` (or `--only-keep`): more thorough version of `--clean` that will also remove packages not in the groups specified by the `-G`, `-d`, and `--prod` options.
-Note: by default, `pdm sync` selects all groups from the lockfile, so `--clean-unselected` is identical to `--clean` unless `-G`, `-d`, and `--prod` are used.
+- `--clean`: ロックファイルに含まれていないパッケージを削除します。
+- `--clean-unselected`（または `--only-keep`）: `--clean` のより徹底的なバージョンで、`-G`、`-d`、および `--prod` オプションで指定されたグループに含まれていないパッケージも削除します。
+注意: デフォルトでは、`pdm sync` はロックファイルからすべてのグループを選択するため、`-G`、`-d`、および `--prod` が使用されない限り、`--clean-unselected` は `--clean` と同じです。
 
+## ロックファイルのハッシュ
 
-## Hashes in the lock file
+デフォルトでは、`pdm install` はロックファイルが `pyproject.toml` の内容と一致するかどうかを確認します。これは、ロックファイルに `pyproject.toml` のコンテンツハッシュを保存することで行われます。
 
-By default, `pdm install` will check if the lock file matches the content of `pyproject.toml`, this is done by storing a content hash of `pyproject.toml` in the lock file.
-
-To check if the hash in the lock file is up-to-date:
+ロックファイルのハッシュが最新かどうかを確認するには:
 
 ```bash
 pdm lock --check
 ```
 
-If you want to refresh the lock file without changing the dependencies, you can use the `--refresh` option:
+依存関係を変更せずにロックファイルを更新したい場合は、`--refresh` オプションを使用できます。
 
 ```bash
 pdm lock --refresh
 ```
 
-This command also refreshes *all* file hashes recorded in the lock file.
+このコマンドは、ロックファイルに記録されたすべてのファイルハッシュも更新します。
 
-## Specify another lock file to use
+## 別のロックファイルを指定して使用する
 
-By default, PDM uses `pdm.lock` in the current directory. You can specify another lock file with the `-L/--lockfile` option or the `PDM_LOCKFILE` environment variable:
+デフォルトでは、PDM は現在のディレクトリにある `pdm.lock` を使用します。`-L/--lockfile` オプションまたは `PDM_LOCKFILE` 環境変数を使用して別のロックファイルを指定できます。
 
 ```bash
 pdm install --lockfile my-lockfile.lock
 ```
 
-This command installs packages from `my-lockfile.lock` instead of `pdm.lock`.
+このコマンドは、`pdm.lock` の代わりに `my-lockfile.lock` からパッケージをインストールします。
 
-Alternate lock files are helpful when there exist conflicting dependencies for different environments. In this case, if you lock them as a whole, PDM will raise an error. So you have to [select a subset of dependency groups](./dependency.md#select-a-subset-of-dependency-groups-to-install) and lock them separately.
+代替ロックファイルは、異なる環境に対して競合する依存関係が存在する場合に役立ちます。この場合、それらを全体としてロックすると、PDM はエラーを発生させます。そのため、[依存関係グループのサブセットを選択](./dependency.md#select-a-subset-of-dependency-groups-to-install)して別々にロックする必要があります。
 
-For a realistic example, your project depends on a release version of `werkzeug` and you may want to work with a local in-development copy of it when developing. You can add the following to your `pyproject.toml`:
+現実的な例として、プロジェクトが `werkzeug` のリリースバージョンに依存しており、開発中にローカルの開発中のコピーと一緒に作業したい場合があります。次のように `pyproject.toml` に追加できます。
 
 ```toml
 [project]
@@ -69,182 +68,182 @@ dependencies = ["werkzeug"]
 dev = ["werkzeug @ file:///${PROJECT_ROOT}/dev/werkzeug"]
 ```
 
-Then, run `pdm lock` with different options to generate lockfiles for different purposes:
+次に、異なる目的のために異なるオプションで `pdm lock` を実行してロックファイルを生成します。
 
 ```bash
-# Lock default + dev, write to pdm.lock
-# with the local copy of werkzeug pinned.
+# デフォルト + 開発をロックし、pdm.lock に書き込みます。
+# ローカルコピーの werkzeug を固定します。
 pdm lock
-# Lock default, write to pdm.prod.lock
-# with the release version of werkzeug pinned.
+# デフォルトをロックし、pdm.prod.lock に書き込みます。
+# リリースバージョンの werkzeug を固定します。
 pdm lock --prod -L pdm.prod.lock
 ```
 
-Check the `metadata.groups` field in the lockfile to see which groups are included.
+ロックファイルの `metadata.groups` フィールドを確認して、どのグループが含まれているかを確認します。
 
-## Option to not write lock file
+## ロックファイルを書き込まないオプション
 
-Sometimes you want to add or update dependencies without updating the lock file, or you don't want to generate `pdm.lock`, you can use the `--frozen-lockfile` option:
+依存関係を追加または更新する際にロックファイルを更新したくない場合や、`pdm.lock` を生成したくない場合は、`--frozen-lockfile` オプションを使用できます。
 
 ```bash
 pdm add --frozen-lockfile flask
 ```
 
-In this case, the lock file, if existing, will become read-only, no write operation will be performed on it.
-However, dependency resolution step will still be performed if needed.
+この場合、ロックファイルが存在する場合は読み取り専用になり、書き込み操作は行われません。
+ただし、必要に応じて依存関係の解決ステップは実行されます。
 
-## Lock strategies
+## ロック戦略
 
-Currently, we support three flags to control the locking behavior: `cross_platform`, `static_urls` and `direct_minimal_versions`, with the meanings as follows.
-You can pass one or more flags to `pdm lock` by `--strategy/-S` option, either by giving a comma-separated list or by passing the option multiple times.
-Both of these commands function in the same way:
+現在、ロックの動作を制御するための 3 つのフラグをサポートしています。`cross_platform`、`static_urls`、および `direct_minimal_versions` で、それぞれの意味は次のとおりです。
+これらのフラグを `--strategy/-S` オプションで `pdm lock` に渡すことで、1 つ以上のフラグを指定できます。カンマ区切りのリストを指定するか、オプションを複数回渡すことで指定できます。
+これらのコマンドは同じ方法で機能します。
 
 ```bash
 pdm lock -S cross_platform,static_urls
 pdm lock -S cross_platform -S static_urls
 ```
 
-The flags will be encoded in the lockfile and get read when you run `pdm lock` next time. But you can disable flags by prefixing the flag name with `no_`:
+フラグはロックファイルにエンコードされ、次回 `pdm lock` を実行するときに読み取られます。ただし、フラグを無効にするには、フラグ名の前に `no_` を付けます。
 
 ```bash
 pdm lock -S no_cross_platform
 ```
 
-This command makes the lockfile not cross-platform.
+このコマンドは、ロックファイルをクロスプラットフォームにしません。
 
-### Cross platform
+### クロスプラットフォーム
 
 +++ 2.6.0
 
-!!! warning "Deprecated in 2.17.0"
-    See [Lock for specific platforms or Python versions](./lock-targets.md) for the new behavior.
+!!! warning "2.17.0 で非推奨"
+    新しい動作については、[特定のプラットフォームまたは Python バージョン用にロックする](./lock-targets.md) を参照してください。
 
-By default, the generated lockfile is **cross-platform**, which means the current platform isn't taken into account when resolving the dependencies. The result lockfile will contain wheels and dependencies for all possible platforms and Python versions.
-However, sometimes this will result in a wrong lockfile when a release doesn't contain all wheels.
-To avoid this, you can tell PDM to create a lockfile that works for **this platform** only, trimming the wheels not relevant to the current platform.
-This can be done by passing the `--strategy no_cross_platform` option to `pdm lock`:
+デフォルトでは、生成されたロックファイルは **クロスプラットフォーム** です。つまり、依存関係を解決する際に現在のプラットフォームは考慮されません。結果のロックファイルには、すべての可能なプラットフォームおよび Python バージョンのホイールと依存関係が含まれます。
+ただし、リリースにすべてのホイールが含まれていない場合、これにより誤ったロックファイルが生成されることがあります。
+これを回避するには、PDM に **このプラットフォーム** のみで機能するロックファイルを作成し、現在のプラットフォームに関連しないホイールをトリミングするように指示できます。
+これは、`pdm lock` に `--strategy no_cross_platform` オプションを渡すことで行えます。
 
 ```bash
 pdm lock --strategy no_cross_platform
 ```
 
-### Static URLs
+### 静的 URL
 
 +++ 2.8.0
 
-By default, PDM only stores the filenames of the packages in the lockfile, which benefits the reusability across different package indexes.
-However, if you want to store the static URLs of the packages in the lockfile, you can pass the `--strategy static_urls` option to `pdm lock`:
+デフォルトでは、PDM はロックファイルにパッケージのファイル名のみを保存します。これにより、異なるパッケージインデックス間での再利用が容易になります。
+ただし、ロックファイルにパッケージの静的 URL を保存したい場合は、`pdm lock` に `--strategy static_urls` オプションを渡すことができます。
 
 ```bash
 pdm lock --strategy static_urls
 ```
 
-The settings will be saved and remembered for the same lockfile. You can also pass `--strategy no_static_urls` to disable it.
+設定は保存され、同じロックファイルに対して記憶されます。`--strategy no_static_urls` を渡して無効にすることもできます。
 
-### Direct minimal versions
+### 直接最小バージョン
 
 +++ 2.10.0
 
-When it is enabled by passing `--strategy direct_minimal_versions`, dependencies specified in the `pyproject.toml` will be resolved to the minimal versions available, rather than the latest versions. This is useful when you want to test the compatibility of your project within a range of dependency versions.
+`--strategy direct_minimal_versions` を渡すことで有効にすると、`pyproject.toml` に指定された依存関係は、最新バージョンではなく、利用可能な最小バージョンに解決されます。これは、依存関係のバージョン範囲内でプロジェクトの互換性をテストしたい場合に役立ちます。
 
-For example, if you specified `flask>=2.0` in the `pyproject.toml`, `flask` will be resolved to version `2.0.0` if there is no other compatibility issue.
+たとえば、`pyproject.toml` に `flask>=2.0` を指定した場合、他に互換性の問題がなければ、`flask` はバージョン `2.0.0` に解決されます。
 
 !!! NOTE
-    Version constraints in package dependencies are not future-proof. If you resolve the dependencies to the minimal versions, there will likely be backwards-compatibility issues.
-    For example, `flask==2.0.0` requires `werkzeug>=2.0`, but in fact, it can not work with `Werkzeug 3.0.0`, which is released 2 years after it.
+    パッケージ依存関係のバージョン制約は将来にわたって互換性があるわけではありません。依存関係を最小バージョンに解決すると、後方互換性の問題が発生する可能性があります。
+    たとえば、`flask==2.0.0` は `werkzeug>=2.0` を要求しますが、実際には `Werkzeug 3.0.0` とは互換性がありません。これは、リリースから 2 年後にリリースされました。
 
-### Inherit the metadata from parents
+### 親からメタデータを継承する
 
 +++ 2.11.0
 
-Previously, the `pdm lock` command would record package metadata as it is. When installing, PDM would start from the top requirements and traverse down to the leaf node of the dependency tree. It would then evaluate any marker it encounters against the current environment. If a marker is not satisfied, the package would be discarded. In other words, we need an additional "resolution" step in installation.
+以前は、`pdm lock` コマンドはパッケージメタデータをそのまま記録していました。インストール時には、PDM はトップレベルの要件から開始し、依存関係ツリーのリーフノードまで下に向かってトラバースします。その後、現在の環境に対してマーカーを評価します。マーカーが満たされない場合、パッケージは破棄されます。言い換えれば、インストール時に追加の「解決」ステップが必要です。
 
-When the `inherit_metadata` strategy is enabled, PDM will inherit and merge environment markers from a package's ancestors. These markers are then encoded in the lockfile during locking, resulting in faster installations. This has been enabled by default from version `2.11.0`, to disable this strategy in the config, use `pdm config strategy.inherit_metadata false`.
+`inherit_metadata` 戦略が有効になっている場合、PDM はパッケージの祖先から環境マーカーを継承およびマージします。これらのマーカーはロック時にロックファイルにエンコードされ、インストールが高速化されます。これはバージョン `2.11.0` からデフォルトで有効になっており、設定でこの戦略を無効にするには、`pdm config strategy.inherit_metadata false` を使用します。
 
-### Exclude packages newer than specific date
+### 特定の日付以降のパッケージを除外する
 
 +++ 2.13.0
 
-You can exclude packages that are newer than a specified date by passing the `--exclude-newer` option to `pdm lock`. This is useful when you want to lock the dependencies to a specific date, for example, to ensure reproducibility of the build.
+`pdm lock` に `--exclude-newer` オプションを渡すことで、特定の日付以降のパッケージを除外できます。これは、ビルドの再現性を確保するために依存関係を特定の日付にロックしたい場合に役立ちます。
 
-The date may be specified as a RFC 3339 timestamp (e.g., `2006-12-02T02:07:43Z`) or UTC date in the same format (e.g., `2006-12-02`).
+日付は RFC 3339 タイムスタンプ（例：`2006-12-02T02:07:43Z`）または同じ形式の UTC 日付（例：`2006-12-02`）として指定できます。
 
 ```bash
 pdm lock --exclude-newer 2024-01-01
 ```
 
 !!! note
-    The package index must support the `upload-time` field as specified in [PEP 700]. If the field is not present for a given distribution, the distribution will be treated as unavailable.
+    パッケージインデックスは、[PEP 700] で指定されているように `upload-time` フィールドをサポートしている必要があります。特定のディストリビューションにフィールドが存在しない場合、そのディストリビューションは利用できないものとして扱われます。
 
 [PEP 700]: https://peps.python.org/pep-0700/
 
-## Set acceptable format for locking or installing
+## ロックまたはインストールのための許容フォーマットを設定する
 
-If you want to control the format(binary/sdist) of the packages, you can set the env vars `PDM_NO_BINARY`, `PDM_ONLY_BINARY` and `PDM_PREFER_BINARY`.
+パッケージのフォーマット（バイナリ/ソースディストリビューション）を制御したい場合は、環境変数 `PDM_NO_BINARY`、`PDM_ONLY_BINARY`、および `PDM_PREFER_BINARY` を設定できます。
 
-Each env var is a comma-separated list of package name. You can set it to `:all:` to apply to all packages. For example:
+各環境変数はパッケージ名のカンマ区切りリストです。すべてのパッケージに適用するには `:all:` を設定できます。たとえば：
 
 ```toml
-# No binary for werkzeug will be locked nor used for installation
+# werkzeug のバイナリはロックされず、インストールにも使用されません
 PDM_NO_BINARY=werkzeug pdm add flask
-# Only binaries will be locked in the lock file
+# バイナリのみがロックファイルにロックされます
 PDM_ONLY_BINARY=:all: pdm lock
-# No binaries will be used for installation
+# インストールにはバイナリは使用されません
 PDM_NO_BINARY=:all: pdm install
-# Prefer binary distributions and even if sdist with higher version is available
+# バイナリディストリビューションを優先し、より高いバージョンの sdist が利用可能な場合でも
 PDM_PREFER_BINARY=flask pdm install
 ```
 
-You can also defined those values in your project `pyproject.toml` with the `no-binary`, `only-binary` and `prefer-binary` keys of the `tool.pdm.resolution` section.
-They accept the same format as the environment variables and also support lists.
+これらの値をプロジェクトの `pyproject.toml` に `tool.pdm.resolution` セクションの `no-binary`、`only-binary`、および `prefer-binary` キーで定義することもできます。
+これらは環境変数と同じ形式を受け入れ、リストもサポートしています。
 
 ```toml
 [tool.pdm.resolution]
-# No binary for werkzeug and flask will be locked nor used for installation
+# werkzeug と flask のバイナリはロックされず、インストールにも使用されません
 no-binary = "werkzeug,flask"
-# equivalent to
+# 同等
 no-binary = ["werkzeug", "flask"]
-# Only binaries will be locked in the lock file
+# バイナリのみがロックファイルにロックされます
 only-binary = ":all:"
-# Prefer binary distributions and even if sdist with higher version is available
+# バイナリディストリビューションを優先し、より高いバージョンの sdist が利用可能な場合でも
 prefer-binary = "flask"
 ```
 
 !!! note
-    Each environment variable takes precedence over its `pyproject.toml` alternative.
+    各環境変数は `pyproject.toml` の代替よりも優先されます。
 
-## Allow prerelease versions to be installed
+## プレリリースバージョンのインストールを許可する
 
-Include the following setting in `pyproject.toml` to enable:
+`pyproject.toml` に次の設定を含めて有効にします。
 
 ```toml
 [tool.pdm.resolution]
 allow-prereleases = true
 ```
 
-## Solve the locking failure
+## ロックの失敗を解決する
 
-If PDM is not able to find a resolution to satisfy the requirements, it will raise an error. For example,
+PDM が要件を満たす解決策を見つけられない場合、エラーを発生させます。たとえば、
 
 ```bash
 pdm django==3.1.4 "asgiref<3"
 ...
-🔒 Lock failed
-Unable to find a resolution for asgiref because of the following conflicts:
-    asgiref<3 (from project)
-    asgiref<4,>=3.2.10 (from <Candidate django 3.1.4 from https://pypi.org/simple/django/>)
-To fix this, you could loosen the dependency version constraints in pyproject.toml. If that is not possible, you could also override the resolved version in `[tool.pdm.resolution.overrides]` table.
+🔒 ロックに失敗しました
+asgiref の解決策を見つけることができませんでした。次の競合が原因です。
+    asgiref<3 (プロジェクトから)
+    asgiref<4,>=3.2.10 (候補 django 3.1.4 から https://pypi.org/simple/django/)
+これを修正するには、pyproject.toml の依存関係バージョン制約を緩和することができます。それが不可能な場合は、`[tool.pdm.resolution.overrides]` テーブルで解決されたバージョンを上書きすることもできます。
 ```
 
-You can either change to a lower version of `django` or remove the upper bound of `asgiref`. But if it is not eligible for your project, you can try [overriding the resolved package versions](./config.md#override-the-resolved-package-versions) or even [don't lock that specific package](./config.md#exclude-specific-packages-and-their-dependencies-from-the-lock-file) in `pyproject.toml`.
+`django` のバージョンを下げるか、`asgiref` の上限を削除することができます。ただし、プロジェクトに適していない場合は、`pyproject.toml` で [解決されたパッケージバージョンを上書き](./config.md#override-the-resolved-package-versions) するか、特定のパッケージを [ロックしない](./config.md#exclude-specific-packages-and-their-dependencies-from-the-lock-file) ことも試すことができます。
 
-## Export locked packages to alternative formats
+## ロックされたパッケージを別の形式にエクスポートする
 
-You can export the `pdm.lock` file to other formats, which will simplify the CI flow or image building process. At present, only the `requirements.txt` format is supported.
+`pdm.lock` ファイルを他の形式にエクスポートできます。これにより、CI フローやイメージビルドプロセスが簡素化されます。現在、`requirements.txt` 形式のみがサポートされています。
 
 ```bash
 pdm export -o requirements.txt
 ```
 
 !!! TIP
-    You can also run `pdm export` with a [`.pre-commit` hook](./advanced.md#hooks-for-pre-commit).
+    [`.pre-commit` フック](./advanced.md#hooks-for-pre-commit) で `pdm export` を実行することもできます。

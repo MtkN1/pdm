@@ -1,100 +1,100 @@
-# Working with Virtual Environments
+# 仮想環境を使用する
 
-When you run [`pdm init`](../reference/cli.md#init) command, PDM will [ask for the Python interpreter to use](./project.md#choose-a-python-interpreter) in the project, which is the base interpreter to install dependencies and run tasks.
+[`pdm init`](../reference/cli.md#init) コマンドを実行すると、PDM はプロジェクトで使用する [Python インタープリターを選択する](./project.md#choose-a-python-interpreter) ように求めます。これは、依存関係をインストールし、タスクを実行するための基本的なインタープリターです。
 
-Compared to [PEP 582](https://www.python.org/dev/peps/pep-0582/), virtual environments are considered more mature and have better support in the Python ecosystem as well as IDEs. Therefore, virtualenv is the default mode if not configured otherwise.
+[PEP 582](https://www.python.org/dev/peps/pep-0582/) と比較して、仮想環境はより成熟しており、Python エコシステムや IDE でのサポートが優れています。したがって、特に設定されていない限り、仮想環境がデフォルトモードです。
 
-!!! NOTE "Configure pdm to use virtual environment or PEP 582"
-    By default pdm is configured to use virtual environment instead of PEP 582. But this behavior can be changed with `pdm config python.use_venv False` config variable.
+!!! NOTE "pdm を構成して仮想環境または PEP 582 を使用する"
+    デフォルトでは、pdm は PEP 582 の代わりに仮想環境を使用するように構成されています。ただし、この動作は `pdm config python.use_venv False` 構成変数で変更できます。
 
-**Virtual environments will be used if the project interpreter (the interpreter stored in `.pdm-python`, which can be checked by `pdm info`) is from a virtualenv.**
+**プロジェクトインタープリター（`.pdm-python` に保存され、`pdm info` で確認できるインタープリター）が仮想環境からのものである場合、仮想環境が使用されます。**
 
-## Virtualenv auto-creation
+## 仮想環境の自動作成
 
-By default, PDM prefers to use the virtualenv layout as other package managers do. When you run `pdm install` the first time on a new PDM-managed project, whose Python interpreter is not decided yet, PDM will create a virtualenv in `<project_root>/.venv`, and install dependencies into it. In the interactive session of `pdm init`, PDM will also ask to create a virtualenv for you.
+デフォルトでは、PDM は他のパッケージマネージャーと同様に仮想環境レイアウトを使用することを好みます。PDM がまだ Python インタープリターを決定していない新しい PDM 管理プロジェクトで最初に `pdm install` を実行すると、PDM は `<project_root>/.venv` に仮想環境を作成し、依存関係をそこにインストールします。`pdm init` の対話型セッションでも、PDM は仮想環境を作成するかどうかを尋ねます。
 
-You can choose the backend used by PDM to create a virtualenv. Currently it supports three backends:
+PDM が仮想環境を作成するために使用するバックエンドを選択できます。現在、3 つのバックエンドがサポートされています:
 
-- [`virtualenv`](https://virtualenv.pypa.io/)(default)
+- [`virtualenv`](https://virtualenv.pypa.io/)（デフォルト）
 - `venv`
 - `conda`
 
-You can change it by `pdm config venv.backend [virtualenv|venv|conda]`.
+`pdm config venv.backend [virtualenv|venv|conda]` で変更できます。
 
 +++ 2.13.0
 
-    Moreover, when `python.use_venv` config is set to `true`, PDM will always try to create a virtualenv when using `pdm use` to switch the Python interpreter.
+    さらに、`python.use_venv` 構成が `true` に設定されている場合、PDM は Python インタープリターを切り替えるために `pdm use` を使用する際に常に仮想環境を作成しようとします。
 
-## Create a virtualenv yourself
+## 自分で仮想環境を作成する
 
-You can create more than one virtualenvs with whatever Python version you want.
+任意の Python バージョンで複数の仮想環境を作成できます。
 
 ```bash
-# Create a virtualenv based on 3.8 interpreter
+# 3.8 インタープリターに基づいて仮想環境を作成する
 pdm venv create 3.8
-# Assign a different name other than the version string
+# バージョン文字列以外の名前を割り当てる
 pdm venv create --name for-test 3.8
-# Use venv as the backend to create, support 3 backends: virtualenv(default), venv, conda
+# venv をバックエンドとして使用して作成する。3 つのバックエンドをサポート: virtualenv（デフォルト）、venv、conda
 pdm venv create --with venv 3.9
 ```
 
-## The location of virtualenvs
+## 仮想環境の場所
 
-If no `--name` is given, PDM will create the venv in `<project_root>/.venv`. Otherwise, virtualenvs go to the location specified by the `venv.location` configuration.
-They are named as `<project_name>-<path_hash>-<name_or_python_version>` to avoid name collision.
-You can disable the in-project virtualenv creation by `pdm config venv.in_project false`. And all virtualenvs will be created under `venv.location`.
+`--name` が指定されていない場合、PDM は `<project_root>/.venv` に仮想環境を作成します。それ以外の場合、仮想環境は `venv.location` 構成で指定された場所に作成されます。
+名前の衝突を避けるために、`<project_name>-<path_hash>-<name_or_python_version>` という名前が付けられます。
+`pdm config venv.in_project false` でプロジェクト内の仮想環境の作成を無効にできます。すべての仮想環境は `venv.location` に作成されます。
 
-## Reuse the virtualenv you created elsewhere
+## 他の場所で作成した仮想環境を再利用する
 
-You can tell PDM to use a virtualenv you created in preceding steps, with [`pdm use`](../reference/cli.md#use):
+前の手順で作成した仮想環境を PDM に使用させることができます。[`pdm use`](../reference/cli.md#use) を使用します:
 
 ```bash
 pdm use -f /path/to/venv
 ```
 
-## Virtualenv auto-detection
+## 仮想環境の自動検出
 
-When no interpreter is stored in the project config or `PDM_IGNORE_SAVED_PYTHON` env var is set, PDM will try to detect possible virtualenvs to use:
+プロジェクト構成にインタープリターが保存されていない場合、または `PDM_IGNORE_SAVED_PYTHON` 環境変数が設定されている場合、PDM は使用可能な仮想環境を検出しようとします:
 
-- `venv`, `env`, `.venv` directories in the project root
-- The currently activated virtualenv, unless `PDM_IGNORE_ACTIVE_VENV` is set
+- プロジェクトルートの `venv`、`env`、`.venv` ディレクトリ
+- 現在アクティブな仮想環境（`PDM_IGNORE_ACTIVE_VENV` が設定されていない場合）
 
-## List all virtualenvs created with this project
+## このプロジェクトで作成されたすべての仮想環境を一覧表示する
 
 ```bash
 $ pdm venv list
-Virtualenvs created with this project:
+このプロジェクトで作成された仮想環境:
 
 -  3.8.6: C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-3.8.6
 -  for-test: C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-for-test
 -  3.9.1: C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-3.9.1
 ```
 
-## Show the path or python interpreter of a virtualenv
+## 仮想環境のパスまたは Python インタープリターを表示する
 
 ```bash
 pdm venv --path for-test
 pdm venv --python for-test
 ```
 
-## Remove a virtualenv
+## 仮想環境を削除する
 
 ```bash
 $ pdm venv remove for-test
-Virtualenvs created with this project:
-Will remove: C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-for-test, continue? [y/N]:y
-Removed C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-for-test
+このプロジェクトで作成された仮想環境:
+削除されます: C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-for-test, 続行しますか？ [y/N]:y
+削除されました C:\Users\Frost Ming\AppData\Local\pdm\pdm\venvs\test-project-8Sgn_62n-for-test
 ```
 
-## Activate a virtualenv
+## 仮想環境をアクティブにする
 
-Instead of spawning a subshell like what `pipenv` and `poetry` do, `pdm venv` doesn't create the shell for you but print the activate command to the console. In this way you won't leave the current shell. You can then feed the output to `eval` to activate the virtualenv:
+`pipenv` や `poetry` が行うようにサブシェルを生成する代わりに、`pdm venv` はシェルを作成せず、アクティベートコマンドをコンソールに表示します。この方法では、現在のシェルを離れることはありません。次に、出力を `eval` に渡して仮想環境をアクティブにできます:
 
 === "bash/csh/zsh"
 
     ```bash
     $ eval $(pdm venv activate for-test)
-    (test-project-for-test) $  # Virtualenv entered
+    (test-project-for-test) $  # 仮想環境に入りました
     ```
 
 === "Fish"
@@ -109,18 +109,18 @@ Instead of spawning a subshell like what `pipenv` and `poetry` do, `pdm venv` do
     PS1> Invoke-Expression (pdm venv activate for-test)
     ```
 
-    Additionally, if the project interpreter is a venv Python, you can omit the name argument following activate.
+    さらに、プロジェクトインタープリターが venv Python である場合、アクティベートの後に名前引数を省略できます。
 
 !!! NOTE
-    `venv activate` **does not** switch the Python interpreter used by the project. It only changes the shell by injecting the virtualenv paths to environment variables. For the forementioned purpose, use the `pdm use` command.
+    `venv activate` はプロジェクトで使用される Python インタープリターを切り替え **ません**。環境変数に仮想環境パスを注入することでシェルを変更するだけです。前述の目的のためには、`pdm use` コマンドを使用してください。
 
-For more CLI usage, see the [`pdm venv`](../reference/cli.md#venv) documentation.
+詳細な CLI の使用方法については、[`pdm venv`](../reference/cli.md#venv) ドキュメントを参照してください。
 
-!!! TIP "Looking for `pdm shell`?"
-    PDM doesn't provide a `shell` command because many fancy shell functions may not work perfectly in a subshell, which brings a maintenance burden to support all the corner cases. However, you can still gain the ability via the following ways:
+!!! TIP "`pdm shell` を探していますか？"
+    PDM は `shell` コマンドを提供していません。多くの便利なシェル機能がサブシェルで完全に機能しない可能性があり、すべてのコーナーケースをサポートするためのメンテナンス負担が生じるためです。ただし、次の方法でこの機能を利用できます:
 
-    - Use `pdm run $SHELL`, this will spawn a subshell with the environment variables set properly. **The subshell can be quit with `exit` or `Ctrl+D`.**
-    - Add a shell function to activate the virtualenv, here is an example of BASH function that also works on ZSH:
+    - `pdm run $SHELL` を使用します。これにより、環境変数が適切に設定されたサブシェルが生成されます。**サブシェルは `exit` または `Ctrl+D` で終了できます。**
+    - 仮想環境をアクティブにするシェル関数を追加します。以下は BASH 関数の例で、ZSH でも動作します:
 
       ```bash
       pdm() {
@@ -134,9 +134,9 @@ For more CLI usage, see the [`pdm venv`](../reference/cli.md#venv) documentation
       }
       ```
 
-      Copy and paste this function to your `~/.bashrc` file and restart your shell.
+      この関数を `~/.bashrc` ファイルにコピーして貼り付け、シェルを再起動します。
 
-      For `fish` shell you can put the following into your `~/fish/config.fish` or in `~/.config/fish/config.fish`
+      `fish` シェルの場合、次の内容を `~/fish/config.fish` または `~/.config/fish/config.fish` に追加できます:
 
       ```fish
         function pdm
@@ -150,25 +150,25 @@ For more CLI usage, see the [`pdm venv`](../reference/cli.md#venv) documentation
         end
       ```
 
-      Now you can run `pdm shell` to activate the virtualenv.
-      **The virtualenv can be deactivated with `deactivate` command as usual.**
+      これで `pdm shell` を実行して仮想環境をアクティブにできます。
+      **仮想環境は通常の `deactivate` コマンドで非アクティブ化できます。**
 
-## Prompt customization
+## プロンプトのカスタマイズ
 
-By default when you activate a virtualenv, the prompt will show: `{project_name}-{python_version}`.
+仮想環境をアクティブにすると、デフォルトでプロンプトに `{project_name}-{python_version}` が表示されます。
 
-For example if your project is named `test-project`:
+たとえば、プロジェクト名が `test-project` の場合:
 
 ```bash
 $ eval $(pdm venv activate for-test)
-(test-project-3.10) $  # {project_name} == test-project and {python_version} == 3.10
+(test-project-3.10) $  # {project_name} == test-project および {python_version} == 3.10
 ```
 
-The format can be customized before virtualenv creation with the [`venv.prompt`](../reference/configuration.md) configuration or `PDM_VENV_PROMPT` environment variable (before a `pdm init` or `pdm venv create`).
-Available variables are:
+仮想環境の作成前に [`venv.prompt`](../reference/configuration.md) 構成または `PDM_VENV_PROMPT` 環境変数でフォーマットをカスタマイズできます（`pdm init` または `pdm venv create` の前に）。
+利用可能な変数は次のとおりです:
 
-- `project_name`: name of your project
-- `python_version`: version of Python (used by the virtualenv)
+- `project_name`: プロジェクトの名前
+- `python_version`: Python のバージョン（仮想環境で使用される）
 
 ```bash
 $ PDM_VENV_PROMPT='{project_name}-py{python_version}' pdm venv create --name test-prompt
@@ -176,56 +176,56 @@ $ eval $(pdm venv activate test-prompt)
 (test-project-py3.10) $
 ```
 
-## Run a command in a virtual environment without activating it
+## 仮想環境をアクティブにせずにコマンドを実行する
 
 ```bash
-# Run a script
+# スクリプトを実行する
 pdm run --venv test test
-# Install packages
+# パッケージをインストールする
 pdm sync --venv test
-# List the packages installed
+# インストールされているパッケージを一覧表示する
 pdm list --venv test
 ```
 
-There are other commands supporting `--venv` flag or `PDM_IN_VENV` environment variable, see the [CLI reference](../reference/cli.md). You should create the virtualenv with `pdm venv create --name <name>` before using this feature.
+`--venv` フラグまたは `PDM_IN_VENV` 環境変数をサポートする他のコマンドもあります。詳細は [CLI リファレンス](../reference/cli.md) を参照してください。この機能を使用する前に、`pdm venv create --name <name>` で仮想環境を作成する必要があります。
 
-## Switch to a virtualenv as the project environment
+## プロジェクト環境として仮想環境に切り替える
 
-By default, if you use `pdm use` and select a non-venv Python, the project will be switched to [PEP 582 mode](./pep582.md). We also allow you to switch to a named virtual environment via the `--venv` flag:
+デフォルトでは、`pdm use` を使用して非 venv Python を選択すると、プロジェクトは [PEP 582 モード](./pep582.md) に切り替わります。`--venv` フラグを使用して名前付き仮想環境に切り替えることもできます:
 
 ```bash
-# Switch to a virtualenv named test
+# test という名前の仮想環境に切り替える
 $ pdm use --venv test
-# Switch to the in-project venv located at $PROJECT_ROOT/.venv
+# $PROJECT_ROOT/.venv にあるプロジェクト内の venv に切り替える
 $ pdm use --venv in-project
 ```
 
-## Disable virtualenv mode
+## 仮想環境モードを無効にする
 
-You can disable the auto-creation and auto-detection for virtualenv by `pdm config python.use_venv false`.
-**If venv is disabled, PEP 582 mode will always be used even if the selected interpreter is from a virtualenv.**
+`pdm config python.use_venv false` で仮想環境の自動作成と自動検出を無効にできます。
+**venv が無効になっている場合、選択されたインタープリターが仮想環境からのものであっても、PEP 582 モードが常に使用されます。**
 
-## Including pip in your virtual environment
+## 仮想環境に pip を含める
 
-By default PDM will not include `pip` in virtual environments.
-This increases isolation by ensuring that _only your dependencies_ are installed in the virtual environment.
+デフォルトでは、PDM は仮想環境に `pip` を含めません。
+これにより、仮想環境にインストールされるのは **依存関係のみ** であることが保証され、分離が強化されます。
 
-To install `pip` once (if for example you want to install arbitrary dependencies in CI) you can run:
+一度だけ `pip` をインストールするには（たとえば、CI で任意の依存関係をインストールしたい場合）:
 
 ```bash
-# Install pip in the virtual environment
+# 仮想環境に pip をインストールする
 pdm run python -m ensurepip
-# Install arbitrary dependencies
-# These dependencies are not checked for conflicts against lockfile dependencies!
+# 任意の依存関係をインストールする
+# これらの依存関係はロックファイルの依存関係と競合しないことが確認されていません！
 pdm run python -m pip install coverage
 ```
 
-Or you can create the virtual environment with `--with-pip`:
+または、`--with-pip` を使用して仮想環境を作成します:
 
 ```bash
 pdm venv create --with-pip 3.9
 ```
 
-See the [ensurepip docs](https://docs.python.org/3/library/ensurepip.html) for more details on `ensurepip`.
+詳細については、[ensurepip ドキュメント](https://docs.python.org/3/library/ensurepip.html) を参照してください。
 
-If you want to permanently configure PDM to include `pip` in virtual environments you can use the [`venv.with_pip`](../reference/configuration.md) configuration.
+PDM を仮想環境に `pip` を含めるように永続的に構成するには、[`venv.with_pip`](../reference/configuration.md) 構成を使用できます。

@@ -1,25 +1,24 @@
-# Manage Dependencies
+# 依存関係を管理する
 
-PDM provides a bunch of useful commands to help manage your project and dependencies.
-The following examples are run on Ubuntu 18.04, a few changes must be done if you are using Windows.
+PDM は、プロジェクトと依存関係を管理するための便利なコマンドを提供します。
+以下の例は Ubuntu 18.04 で実行されており、Windows を使用している場合は、いくつかの変更が必要です。
 
-## Add dependencies
+## 依存関係を追加する
 
-[`pdm add`](../reference/cli.md#add) can be followed by one or several dependencies, and the dependency specification is described in [PEP 508](https://www.python.org/dev/peps/pep-0508/).
+[`pdm add`](../reference/cli.md#add) は、1 つまたは複数の依存関係を指定することができ、依存関係の指定は [PEP 508](https://www.python.org/dev/peps/pep-0508/) に記載されています。
 
-Examples:
+例:
 
 ```bash
-pdm add requests   # add requests
-pdm add requests==2.25.1   # add requests with version constraint
-pdm add requests[socks]   # add requests with extra dependency
-pdm add "flask>=1.0" flask-sqlalchemy   # add multiple dependencies with different specifiers
+pdm add requests   # requests を追加
+pdm add requests==2.25.1   # バージョン制約付きで requests を追加
+pdm add requests[socks]   # 追加の依存関係付きで requests を追加
+pdm add "flask>=1.0" flask-sqlalchemy   # 異なる指定子を持つ複数の依存関係を追加
 ```
 
-PDM also allows extra dependency groups by providing `-G/--group <name>` option, and those dependencies will go to
-`[project.optional-dependencies.<name>]` table in the project file, respectively.
+PDM は、`-G/--group <name>` オプションを提供して、追加の依存関係グループを許可し、それらの依存関係はそれぞれプロジェクトファイルの `[project.optional-dependencies.<name>]` テーブルに移動します。
 
-You can reference other optional groups in `optional-dependencies`, even before the package is uploaded:
+他のオプショナルグループを `optional-dependencies` で参照することができます。パッケージがアップロードされる前でも可能です:
 
 ```toml
 [project]
@@ -32,18 +31,18 @@ jwt = ["pyjwt"]
 all = ["foo[socks,jwt]"]
 ```
 
-After that, dependencies and sub-dependencies will be resolved properly and installed for you, you can view `pdm.lock` to see the resolved result of all dependencies.
+その後、依存関係とサブ依存関係が適切に解決され、インストールされます。解決されたすべての依存関係の結果を確認するには、`pdm.lock` を参照してください。
 
-### Local dependencies
+### ローカル依存関係
 
-Local packages can be added with their paths. The path can be a file or a directory:
+ローカルパッケージは、そのパスを指定して追加できます。パスはファイルまたはディレクトリである必要があります:
 
 ```bash
 pdm add ./sub-package
 pdm add ./first-1.0.0-py2.py3-none-any.whl
 ```
 
-The paths MUST start with a `.`, otherwise it will be recognized as a normal named requirement. The local dependencies will be written to the `pyproject.toml` file with the URL format:
+パスは `.` で始まる必要があります。そうでない場合は、通常の名前付き要件として認識されます。ローカル依存関係は、URL 形式で `pyproject.toml` ファイルに書き込まれます:
 
 ```toml
 [project]
@@ -53,65 +52,65 @@ dependencies = [
 ]
 ```
 
-??? note "Using other build backends"
-    If you are using `hatchling` instead of the pdm backend, the URLs would be as follows:
+??? note "他のビルドバックエンドを使用する"
+    `hatchling` を pdm バックエンドの代わりに使用している場合、URL は次のようになります:
 
     ```
     sub-package @ {root:uri}/sub-package
     first @ {root:uri}/first-1.0.0-py2.py3-none-any.whl
     ```
-    Other backends doesn't support encoding relative paths in the URL and will write the absolute path instead.
+    他のバックエンドは、URL 内の相対パスのエンコードをサポートしておらず、代わりに絶対パスを書き込みます。
 
-### URL dependencies
+### URL 依存関係
 
-PDM also supports downloading and installing packages directly from a web address.
+PDM は、Web アドレスから直接パッケージをダウンロードしてインストールすることもサポートしています。
 
-Examples:
+例:
 
 ```bash
-# Install gzipped package from a plain URL
+# プレーン URL から gzipped パッケージをインストール
 pdm add "https://github.com/numpy/numpy/releases/download/v1.20.0/numpy-1.20.0.tar.gz"
-# Install wheel from a plain URL
+# プレーン URL からホイールをインストール
 pdm add "https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.5.0/en_core_web_trf-3.5.0-py3-none-any.whl"
 ```
 
-### VCS dependencies
+### VCS 依存関係
 
-You can also install from a git repository url or other version control systems. The following are supported:
+Git リポジトリ URL や他のバージョン管理システムからもインストールできます。以下がサポートされています:
 
 - Git: `git`
 - Mercurial: `hg`
 - Subversion: `svn`
 - Bazaar: `bzr`
 
-The URL should be like: `{vcs}+{url}@{rev}`
+URL は次のようになります: `{vcs}+{url}@{rev}`
 
-Examples:
+例:
 
 ```bash
-# Install pip repo on tag `22.0`
+# タグ `22.0` の pip リポジトリをインストール
 pdm add "git+https://github.com/pypa/pip.git@22.0"
-# Provide credentials in the URL
+# URL に資格情報を提供
 pdm add "git+https://username:password@github.com/username/private-repo.git@master"
-# Give a name to the dependency
+# 依存関係に名前を付ける
 pdm add "pip @ git+https://github.com/pypa/pip.git@22.0"
-# Or use the #egg fragment
+# または #egg フラグメントを使用
 pdm add "git+https://github.com/pypa/pip.git@22.0#egg=pip"
-# Install from a subdirectory
+# サブディレクトリからインストール
 pdm add "git+https://github.com/owner/repo.git@master#egg=pkg&subdirectory=subpackage"
 ```
 
-To use ssh scheme for git, just replace `https://` to `ssh://git@`
+git に対して ssh スキームを使用するには、`https://` を `ssh://git@` に置き換えます。
 
-Example:
+例:
 
 ```bash
 pdm add "wheel @ git+ssh://git@github.com/pypa/wheel.git@main"
 ```
 
-### Hide credentials in the URL
+### URL 内の資格情報を隠す
 
-You can hide the credentials in the URL by using the `${ENV_VAR}` variable syntax:
+`${ENV_VAR}` 変数構文を使用して、URL 内の資格情報を隠すことができます:
 
 ```toml
 [project]
@@ -120,29 +119,27 @@ dependencies = [
 ]
 ```
 
-These variables will be read from the environment variables when installing the project.
+これらの変数は、プロジェクトをインストールする際に環境変数から読み取られます。
 
-### Add development only dependencies
+### 開発専用の依存関係を追加する
 
 +++ 1.5.0
 
-PDM also supports defining groups of dependencies that are useful for development,
-e.g. some for testing and others for linting. We usually don't want these dependencies to appear in the distribution's metadata
-so using `optional-dependencies` is probably not a good idea. We can define them as development dependencies:
+PDM は、テスト用やリント用など、開発に役立つ依存関係のグループを定義することもサポートしています。これらの依存関係は、配布物のメタデータに表示されることはありませんので、`optional-dependencies` を使用するのはおそらく良いアイデアではありません。開発依存関係として定義できます:
 
 ```bash
 pdm add -dG test pytest
 ```
 
-This will result in a pyproject.toml as following:
+これにより、次のような `pyproject.toml` が生成されます:
 
 ```toml
 [tool.pdm.dev-dependencies]
 test = ["pytest"]
 ```
 
-You can have several groups of development only dependencies. Unlike `optional-dependencies`, they won't appear in the package distribution metadata such as `PKG-INFO` or `METADATA`.
-The package index won't be aware of these dependencies. The schema is similar to that of `optional-dependencies`, except that it is in `tool.pdm` table.
+開発専用の依存関係グループをいくつか持つことができます。`optional-dependencies` とは異なり、これらは `PKG-INFO` や `METADATA` などのパッケージ配布メタデータには表示されません。
+パッケージインデックスはこれらの依存関係を認識しません。スキーマは `optional-dependencies` と似ていますが、`tool.pdm` テーブルにあります。
 
 ```toml
 [tool.pdm.dev-dependencies]
@@ -154,194 +151,194 @@ test = ["pytest", "pytest-cov"]
 doc = ["mkdocs"]
 ```
 
-For backward-compatibility, if only `-d` or `--dev` is specified, dependencies will go to `dev` group under `[tool.pdm.dev-dependencies]` by default.
+後方互換性のために、`-d` または `--dev` のみが指定された場合、依存関係はデフォルトで `[tool.pdm.dev-dependencies]` の `dev` グループに移動します。
 
 !!! NOTE
-    The same group name MUST NOT appear in both `[tool.pdm.dev-dependencies]` and `[project.optional-dependencies]`.
+    同じグループ名は、`[tool.pdm.dev-dependencies]` と `[project.optional-dependencies]` の両方に表示されてはなりません。
 
-### Editable dependencies
+### 編集可能な依存関係
 
-**Local directories** and **VCS dependencies** can be installed in [editable mode](https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs). If you are familiar with `pip`, it is just like `pip install -e <package>`. **Editable packages are allowed only in development dependencies**:
+**ローカルディレクトリ** および **VCS 依存関係** は、[編集可能モード](https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs) でインストールできます。`pip install -e <package>` のように動作します。**編集可能なパッケージは開発依存関係でのみ許可されます**:
 
 !!! NOTE
-    Editable installs are only allowed in the `dev` dependency group. Other groups, including the default, will fail with a `[PdmUsageError]`.
+    編集可能なインストールは、`dev` 依存関係グループでのみ許可されます。他のグループ（デフォルトを含む）は `[PdmUsageError]` で失敗します。
 
 ```bash
-# A relative path to the directory
+# ディレクトリへの相対パス
 pdm add -e ./sub-package --dev
-# A file URL to a local directory
+# ローカルディレクトリへのファイル URL
 pdm add -e file:///path/to/sub-package --dev
-# A VCS URL
+# VCS URL
 pdm add -e git+https://github.com/pallets/click.git@main#egg=click --dev
 ```
 
-### Save version specifiers
+### バージョン指定子を保存する
 
-If the package is given without a version specifier like `pdm add requests`.
-PDM provides three different behaviors of what version specifier is saved for the dependency,
-which is given by `--save-<strategy>`(Assume `2.21.0` is the latest version that can be found for the dependency):
+パッケージがバージョン指定子なしで指定された場合（例: `pdm add requests`）。
+PDM は、依存関係に対して保存されるバージョン指定子の異なる動作を 3 つ提供します。
+`--save-<strategy>` オプションで指定します（依存関係の最新バージョンが `2.21.0` であると仮定します）:
 
-- `minimum`: Save the minimum version specifier: `>=2.21.0` (default).
-- `compatible`: Save the compatible version specifier: `>=2.21.0,<3.0.0`.
-- `exact`: Save the exact version specifier: `==2.21.0`.
-- `wildcard`: Don't constrain version and leave the specifier to be wildcard: `*`.
+- `minimum`: 最小バージョン指定子を保存します: `>=2.21.0`（デフォルト）。
+- `compatible`: 互換性のあるバージョン指定子を保存します: `>=2.21.0,<3.0.0`。
+- `exact`: 正確なバージョン指定子を保存します: `==2.21.0`。
+- `wildcard`: バージョンを制約せず、指定子をワイルドカードにします: `*`。
 
-### Add prereleases
+### プレリリースを追加する
 
-One can give `--pre/--prerelease` option to [`pdm add`](../reference/cli.md#add) so that prereleases are allowed to be pinned for the given packages.
+[`pdm add`](../reference/cli.md#add) に `--pre/--prerelease` オプションを指定すると、指定されたパッケージに対してプレリリースが許可されます。
 
-## Update existing dependencies
+## 既存の依存関係を更新する
 
-To update all dependencies in the lock file:
+ロックファイル内のすべての依存関係を更新するには:
 
 ```bash
 pdm update
 ```
 
-To update the specified package(s):
+指定されたパッケージを更新するには:
 
 ```bash
 pdm update requests
 ```
 
-To update multiple groups of dependencies:
+複数の依存関係グループを更新するには:
 
 ```bash
 pdm update -G security -G http
 ```
 
-Or using comma-separated list:
+または、カンマ区切りのリストを使用します:
 
 ```bash
 pdm update -G "security,http"
 ```
 
-To update a given package in the specified group:
+指定されたグループ内の特定のパッケージを更新するには:
 
 ```bash
 pdm update -G security cryptography
 ```
 
-If the group is not given, PDM will search for the requirement in the default dependencies set and raises an error if none is found.
+グループが指定されていない場合、PDM はデフォルトの依存関係セットで要件を検索し、見つからない場合はエラーを発生させます。
 
-To update packages in development dependencies:
+開発依存関係のパッケージを更新するには:
 
 ```bash
-# Update all default + dev-dependencies
+# すべてのデフォルト + 開発依存関係を更新
 pdm update -d
-# Update a package in the specified group of dev-dependencies
+# 指定されたグループの開発依存関係のパッケージを更新
 pdm update -dG test pytest
 ```
 
-### About update strategy
+### 更新戦略について
 
-Similarly, PDM also provides 3 different behaviors of updating dependencies and sub-dependencies，
-which is given by `--update-<strategy>` option:
+同様に、PDM は依存関係とサブ依存関係の更新に対して 3 つの異なる動作を提供します。
+`--update-<strategy>` オプションで指定します:
 
-- `reuse`: Keep all locked dependencies except for those given in the command line (default).
-- `reuse-installed`: Try to reuse the versions installed in the working set. **This will also affect the packages requested in the command line**.
-- `eager`: Try to lock a newer version of the packages in command line and their recursive sub-dependencies and keep other dependencies as they are.
-- `all`: Update all dependencies and sub-dependencies.
+- `reuse`: コマンドラインで指定されたものを除いて、すべてのロックされた依存関係を保持します（デフォルト）。
+- `reuse-installed`: 作業セットにインストールされているバージョンを再利用しようとします。**これにより、コマンドラインで要求されたパッケージにも影響します**。
+- `eager`: コマンドラインで指定されたパッケージとその再帰的なサブ依存関係の新しいバージョンをロックしようとし、他の依存関係はそのままにします。
+- `all`: すべての依存関係とサブ依存関係を更新します。
 
-### Update packages to the versions that break the version specifiers
+### バージョン指定子を破るバージョンにパッケージを更新する
 
-One can give `-u/--unconstrained` to tell PDM to ignore the version specifiers in the `pyproject.toml`.
-This works similarly to the `yarn upgrade -L/--latest` command. Besides,
-[`pdm update`](../reference/cli.md#update_2) also supports the `--pre/--prerelease` option.
+`-u/--unconstrained` を指定すると、`pyproject.toml` のバージョン指定子を無視するように PDM に指示できます。
+これは `yarn upgrade -L/--latest` コマンドと同様に動作します。さらに、
+[`pdm update`](../reference/cli.md#update_2) は `--pre/--prerelease` オプションもサポートしています。
 
-## Remove existing dependencies
+## 既存の依存関係を削除する
 
-To remove existing dependencies from project file and the library directory:
+プロジェクトファイルとライブラリディレクトリから既存の依存関係を削除するには:
 
 ```bash
-# Remove requests from the default dependencies
+# デフォルトの依存関係から requests を削除
 pdm remove requests
-# Remove h11 from the 'web' group of optional-dependencies
+# オプショナル依存関係の 'web' グループから h11 を削除
 pdm remove -G web h11
-# Remove pytest-cov from the `test` group of dev-dependencies
+# `test` グループの開発依存関係から pytest-cov を削除
 pdm remove -dG test pytest-cov
 ```
 
-## List outdated packages and the latest versions
+## 古いパッケージと最新バージョンを一覧表示する
 
 +++ 2.13.0
 
-To list outdated packages and the latest versions:
+古いパッケージと最新バージョンを一覧表示するには:
 
 ```bash
 pdm outdated
 ```
 
-You can pass glob patterns to filter the packages to show:
+表示するパッケージをフィルタリングするためにグロブパターンを渡すことができます:
 
 ```bash
 pdm outdated requests* flask*
 ```
 
-## Select a subset of dependency groups to install
+## インストールする依存関係グループのサブセットを選択する
 
-Say we have a project with following dependencies:
+次の依存関係を持つプロジェクトがあるとします:
 
 ```toml
-[project]  # This is production dependencies
+[project]  # これはプロダクション依存関係です
 dependencies = ["requests"]
 
-[project.optional-dependencies]  # This is optional dependencies
+[project.optional-dependencies]  # これはオプショナル依存関係です
 extra1 = ["flask"]
 extra2 = ["django"]
 
-[tool.pdm.dev-dependencies]  # This is dev dependencies
+[tool.pdm.dev-dependencies]  # これは開発依存関係です
 dev1 = ["pytest"]
 dev2 = ["mkdocs"]
 ```
 
-| Command                         | What it does                                                         | Comments                  |
+| コマンド                         | その動作                                                         | コメント                  |
 | ------------------------------- | -------------------------------------------------------------------- | ------------------------- |
-| `pdm install`                   | install all groups locked in the lockfile                            |                           |
-| `pdm install -G extra1`         | install prod deps, dev deps, and "extra1" optional group             |                           |
-| `pdm install -G dev1`           | install prod deps and only "dev1" dev group                          |                           |
-| `pdm install -G:all`            | install prod deps, dev deps and "extra1", "extra2" optional groups   |                           |
-| `pdm install -G extra1 -G dev1` | install prod deps, "extra1" optional group and only "dev1" dev group |                           |
-| `pdm install --prod`            | install prod only                                                    |                           |
-| `pdm install --prod -G extra1`  | install prod deps and "extra1" optional                              |                           |
-| `pdm install --prod -G dev1`    | Fail, `--prod` can't be given with dev dependencies                  | Leave the `--prod` option |
+| `pdm install`                   | ロックファイルにロックされたすべてのグループをインストール                            |                           |
+| `pdm install -G extra1`         | プロダクション依存関係、開発依存関係、および "extra1" オプショナルグループをインストール             |                           |
+| `pdm install -G dev1`           | プロダクション依存関係と "dev1" 開発グループのみをインストール                          |                           |
+| `pdm install -G:all`            | プロダクション依存関係、開発依存関係、および "extra1"、"extra2" オプショナルグループをインストール   |                           |
+| `pdm install -G extra1 -G dev1` | プロダクション依存関係、"extra1" オプショナルグループ、および "dev1" 開発グループのみをインストール |                           |
+| `pdm install --prod`            | プロダクション依存関係のみをインストール                                                    |                           |
+| `pdm install --prod -G extra1`  | プロダクション依存関係と "extra1" オプショナルグループをインストール                              |                           |
+| `pdm install --prod -G dev1`    | 失敗、`--prod` は開発依存関係と一緒に指定できません                  | `--prod` オプションを省略します |
 
-**All** development dependencies are included as long as `--prod` is not passed and `-G` doesn't specify any dev groups.
+**すべての** 開発依存関係は、`--prod` が指定されていない限り、`-G` が開発グループを指定しない限り含まれます。
 
-Besides, if you don't want the root project to be installed, add `--no-self` option, and `--no-editable` can be used when you want all packages to be installed in non-editable versions.
+さらに、ルートプロジェクトをインストールしたくない場合は、`--no-self` オプションを追加し、すべてのパッケージを非編集可能バージョンでインストールしたい場合は `--no-editable` を使用できます。
 
-You may also use the pdm lock command with these options to lock only the specified groups, which will be recorded in the `[metadata]` table of the lock file. If no `--group/--prod/--dev/--no-default` option is specified, `pdm sync` and `pdm update` will operate using the groups in the lockfile. However, if any groups that are not included in the lockfile are given as arguments to the commands, PDM will raise an error.
+これらのオプションを使用して、pdm lock コマンドを使用して、指定されたグループのみをロックすることもできます。これらはロックファイルの `[metadata]` テーブルに記録されます。`--group/--prod/--dev/--no-default` オプションが指定されていない場合、`pdm sync` および `pdm update` はロックファイル内のグループを使用して操作を行います。ただし、ロックファイルに含まれていないグループがコマンドの引数として指定された場合、PDM はエラーを発生させます。
 
-## Dependency Overrides
+## 依存関係のオーバーライド
 
-If none of versions of a specific package doesn't meet all the constraints, the resolution will fail. In this case, you can tell the resolver to use a specific version of the package with dependency overrides.
+特定のパッケージのバージョンがすべての制約を満たさない場合、解決は失敗します。この場合、依存関係のオーバーライドを使用して、特定のバージョンのパッケージを使用するようにリゾルバに指示できます。
 
-Overrides are a useful last resort for cases in which the user knows that a dependency is compatible with a newer version of a package than the package declares, but the package has not yet been updated to declare that compatibility.
+オーバーライドは、ユーザーが依存関係がパッケージが宣言するよりも新しいバージョンと互換性があることを知っているが、パッケージがその互換性を宣言するためにまだ更新されていない場合に役立つ最後の手段です。
 
-For example, if a transitive dependency declares `pydantic>=1.0,<2.0`, but the user knows that the package is compatible with `pydantic>=2.0`, the user can override the declared dependency with `pydantic>=2.0,<3` to allow the resolver to continue.
+たとえば、トランジティブ依存関係が `pydantic>=1.0,<2.0` を宣言しているが、ユーザーがパッケージが `pydantic>=2.0` と互換性があることを知っている場合、ユーザーは `pydantic>=2.0,<3` で宣言された依存関係をオーバーライドして、リゾルバが続行できるようにします。
 
-In PDM, there are two ways to specify overrides:
+PDM では、オーバーライドを指定する方法が 2 つあります:
 
-### In the project file
+### プロジェクトファイル内
 
 +++ 1.12.0
 
-You can specify the overrides in the `pyproject.toml` file, under the `[tool.pdm.resolution.overrides]` table:
+`pyproject.toml` ファイルの `[tool.pdm.resolution.overrides]` テーブルの下にオーバーライドを指定できます:
 
 ```toml
 [tool.pdm.resolution.overrides]
-asgiref = "3.2.10"  # exact version
-urllib3 = ">=1.26.2"  # version range
-pytz = "https://mypypi.org/packages/pytz-2020.9-py3-none-any.whl"  # absolute URL
+asgiref = "3.2.10"  # 正確なバージョン
+urllib3 = ">=1.26.2"  # バージョン範囲
+pytz = "https://mypypi.org/packages/pytz-2020.9-py3-none-any.whl"  # 絶対 URL
 ```
 
-Each entry in the table is a package name and a version specifier. The version specifier can be a version range, an exact version, or an absolute URL.
+テーブル内の各エントリは、パッケージ名とバージョン指定子です。バージョン指定子は、バージョン範囲、正確なバージョン、または絶対 URL である場合があります。
 
-### Via CLI option
+### CLI オプションを介して
 
 +++ 2.17.0
 
-PDM also supports reading dependency overrides from a requirements file. The file works similarly to the constraint file in pip(`--constraint constraints.txt`), and the syntax is the same as the requirements file:
+PDM は、依存関係のオーバーライドを要件ファイルから読み取ることもサポートしています。このファイルは、pip の制約ファイル（`--constraint constraints.txt`）と同様に機能し、構文は要件ファイルと同じです:
 
 ```
 requests==2.20.0
@@ -353,55 +350,55 @@ pytz==2019.3
 urllib3==1.23
 ```
 
-Override files serve as an easy way to store the dependencies in a centralized location that can be shared by multiple projects in your organization.
+オーバーライドファイルは、組織内の複数のプロジェクトで共有できる集中管理された場所に依存関係を保存するための便利な方法です。
 
-You can pass the constraint file to various PDM commands that would perform a resolution, such as [`pdm install`](../reference/cli.md#install), [`pdm lock`](../reference/cli.md#lock), [`pdm add`](../reference/cli.md#add), etc.
+依存関係の解決を行うさまざまな PDM コマンドに制約ファイルを渡すことができます。たとえば、[`pdm install`](../reference/cli.md#install)、[`pdm lock`](../reference/cli.md#lock)、[`pdm add`](../reference/cli.md#add) などです。
 
 ```bash
 pdm lock --override constraints.txt
 ```
 
-This option can be supplied multiple times.
+このオプションは複数回指定できます。
 
-Override files can also be served via a URL, e.g. `--override http://example.com/constraints.txt`, so that your organization can store and serve them in a remote server.
+オーバーライドファイルは、URL を介しても提供できます。たとえば、`--override http://example.com/constraints.txt` のように、組織がリモートサーバーでそれらを保存および提供できるようにします。
 
-## Show what packages are installed
+## インストールされているパッケージを表示する
 
-Similar to `pip list`, you can list all packages installed in the packages directory:
+`pip list` と同様に、パッケージディレクトリにインストールされているすべてのパッケージを一覧表示できます:
 
 ```bash
 pdm list
 ```
 
-### Include and exclude groups
+### グループを含めたり除外したりする
 
-By default, all packages installed in the working set will be listed. You can specify which groups to be listed
-by `--include/--exclude` options, and `include` has a higher priority than `exclude`.
+デフォルトでは、作業セットにインストールされているすべてのパッケージが一覧表示されます。表示するグループを `--include/--exclude` オプションで指定できます。
+`include` は `exclude` よりも優先されます。
 
 ```bash
 pdm list --include dev
 pdm list --exclude test
 ```
 
-There is a special group `:sub`, when included, all transitive dependencies will also be shown. It is included by default.
+特別なグループ `:sub` があり、含まれている場合、すべてのトランジティブ依存関係も表示されます。デフォルトで含まれています。
 
-You can also pass `--resolve` to `pdm list`, which will show the packages resolved in `pdm.lock`, rather than installed in the working set.
+`pdm list` に `--resolve` を渡すと、作業セットにインストールされているパッケージではなく、`pdm.lock` に解決されたパッケージが表示されます。
 
-### Change the output fields and format
+### 出力フィールドと形式を変更する
 
-By default, name, version and location will be shown in the list output, you can view more fields or specify the order of fields by `--fields` option:
+デフォルトでは、名前、バージョン、および場所がリスト出力に表示されます。`--fields` オプションを使用して、表示するフィールドを指定したり、フィールドの順序を指定したりできます:
 
 ```bash
 pdm list --fields name,licenses,version
 ```
 
-For all supported fields, please refer to the [CLI reference](../reference/cli.md#list_1).
+サポートされているすべてのフィールドについては、[CLI リファレンス](../reference/cli.md#list_1) を参照してください。
 
-Also, you can specify the output format other than the default table output. The supported formats and options are `--csv`, `--json`, `--markdown` and `--freeze`.
+また、デフォルトのテーブル出力以外の出力形式を指定することもできます。サポートされている形式とオプションは `--csv`、`--json`、`--markdown`、および `--freeze` です。
 
-### Show the dependency tree
+### 依存関係ツリーを表示する
 
-Or show a dependency tree by:
+または、依存関係ツリーを表示するには:
 
 ```bash
 $ pdm list --tree
@@ -418,21 +415,21 @@ black 19.10b0
 bump2version 1.0.0
 ```
 
-Note that `--fields` option doesn't work with `--tree`.
+`--tree` モードでは、一致するパッケージのサブツリーのみが表示されます。これは、特定のパッケージが必要な理由を示すために `pnpm why` と同じ目的を達成するために使用できます。
 
-### Filter packages by patterns
+### パターンでパッケージをフィルタリングする
 
-You can also limit the packages to show by passing the patterns to `pdm list`:
+また、`pdm list` にパターンを渡すことで、表示するパッケージを制限することもできます:
 
 ```bash
 pdm list flask-* requests-*
 ```
 
-??? warning "Be careful with the shell expansion"
-    In most shells, the wildcard `*` will be expanded if there are matching files under the current directory.
-    To avoid getting unexpected results, you can wrap the patterns with single quotes: `pdm list 'flask-*' 'requests-*'`.
+??? warning "シェル展開に注意してください"
+    ほとんどのシェルでは、現在のディレクトリに一致するファイルがある場合、ワイルドカード `*` が展開されます。
+    予期しない結果を避けるために、パターンをシングルクォートで囲むことができます: `pdm list 'flask-*' 'requests-*'`。
 
-In `--tree` mode, only the subtree of the matched packages will be displayed. This can be used to achieve the same purpose as `pnpm why`, which is to show why a specific package is required.
+`--tree` モードでは、一致するパッケージのサブツリーのみが表示されます。これは、特定のパッケージが必要な理由を示すために `pnpm why` と同じ目的を達成するために使用できます。
 
 ```bash
 $ pdm list --tree --reverse certifi
@@ -441,26 +438,26 @@ certifi 2023.7.22
     └── cachecontrol[filecache] 0.13.1 [ requires: >=2.16.0 ]
 ```
 
-## Manage global project
+## グローバルプロジェクトを管理する
 
-Sometimes users may want to keep track of the dependencies of global Python interpreter as well.
-It is easy to do so with PDM, via `-g/--global` option which is supported by most subcommands.
+ユーザーがグローバル Python インタープリターの依存関係を追跡したい場合があります。
+PDM を使用すると、`-g/--global` オプションを使用して簡単に行うことができます。このオプションはほとんどのサブコマンドでサポートされています。
 
-If the option is passed, `<CONFIG_ROOT>/global-project` will be used as the project directory, which is
-almost the same as normal project except that `pyproject.toml` will be created automatically for you
-and it doesn't support build features. The idea is taken from Haskell's [stack](https://docs.haskellstack.org).
+このオプションが指定されると、`<CONFIG_ROOT>/global-project` がプロジェクトディレクトリとして使用されます。
+これは、プロジェクトファイルが自動的に作成されることを除いて、通常のプロジェクトとほぼ同じです。
+ビルド機能はサポートされていません。このアイデアは Haskell の [stack](https://docs.haskellstack.org) から取られています。
 
-However, unlike `stack`, by default, PDM won't use global project automatically if a local project is not found.
-Users should pass `-g/--global` explicitly to activate it, since it is not very pleasing if packages go to a wrong place.
-But PDM also leave the decision to users, just set the config `global_project.fallback` to `true`.
+ただし、`stack` とは異なり、デフォルトでは、ローカルプロジェクトが見つからない場合に PDM がグローバルプロジェクトを自動的に使用することはありません。
+ユーザーは `-g/--global` を明示的に指定してアクティブにする必要があります。パッケージが間違った場所に移動するのはあまり嬉しくないためです。
+ただし、PDM はこの決定をユーザーに委ねています。`global_project.fallback` を `true` に設定するだけです。
 
-By default, when `pdm` uses global project implicitly the following message is printed: `Project is not found, fallback to the global project`.
-To disable this message set the config `global_project.fallback_verbose` to `false`.
+デフォルトでは、PDM が暗黙的にグローバルプロジェクトを使用する場合、次のメッセージが表示されます: `Project is not found, fallback to the global project`。
+このメッセージを無効にするには、`global_project.fallback_verbose` を `false` に設定します。
 
-If you want global project to track another project file other than `<CONFIG_ROOT>/global-project`,
-you can provide the project path via `-p/--project <path>` option.
-Especially if you pass `--global --project .`,
-PDM will install the dependencies of the current project into the global Python.
+グローバルプロジェクトが `<CONFIG_ROOT>/global-project` 以外のプロジェクトファイルを追跡するようにしたい場合は、
+`-p/--project <path>` オプションを使用してプロジェクトパスを指定できます。
+特に、`--global --project .` を指定すると、
+PDM は現在のプロジェクトの依存関係をグローバル Python にインストールします。
 
 !!! warning
-    Be careful with `remove` and `sync --clean/--pure` commands when global project is used, because it may remove packages installed in your system Python.
+    グローバルプロジェクトが使用されている場合、`remove` および `sync --clean/--pure` コマンドに注意してください。これにより、システム Python にインストールされたパッケージが削除される可能性があります。

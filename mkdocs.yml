@@ -53,11 +53,11 @@ plugins:
         'pyproject/pep621.md': 'reference/pep621.md'
 
 nav:
-  - Usage:
-      - Introduction: index.md
+  - 使用法:
+      - 紹介: index.md
       - usage/project.md
       - usage/dependency.md
-      - Lock Files:
+      - ロックファイル:
         - usage/lockfile.md
         - usage/lock-targets.md
       - usage/uv.md

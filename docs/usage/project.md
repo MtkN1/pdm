@@ -1,184 +1,177 @@
-# New Project
+# 新しいプロジェクト
 
-To start with, create a new project with [`pdm init`](../reference/cli.md#init):
+まず、[`pdm init`](../reference/cli.md#init) を使用して新しいプロジェクトを作成します:
 
 ```bash
 mkdir my-project && cd my-project
 pdm init
 ```
 
-You will need to answer a few questions, to help PDM to create a `pyproject.toml` file for you.
-For more usages of `pdm init`, please read [Create your project from a template](./template.md).
+いくつかの質問に答える必要があります。これにより、PDM が `pyproject.toml` ファイルを作成するのに役立ちます。
+`pdm init` の詳細な使用方法については、[テンプレートからプロジェクトを作成する](./template.md) を参照してください。
 
-## Choose a Python interpreter
+## Python インタープリターを選択する
 
-At first, you need to choose a Python interpreter from a list of Python versions installed on your machine. The interpreter path
-will be stored in `.pdm-python` and used by subsequent commands. You can also change it later with [`pdm use`](../reference/cli.md#use).
+まず、マシンにインストールされている Python バージョンのリストから Python インタープリターを選択する必要があります。インタープリターのパスは `.pdm-python` に保存され、後続のコマンドで使用されます。後で [`pdm use`](../reference/cli.md#use) を使用して変更することもできます。
 
-Alternatively, you can specify the Python interpreter path via `PDM_PYTHON` environment variable. When it is set, the path saved in `.pdm-python` will be ignored.
+また、`PDM_PYTHON` 環境変数を介して Python インタープリターのパスを指定することもできます。設定されている場合、`.pdm-python` に保存されたパスは無視されます。
 
-!!! warning "Using an existing environment"
-If you choose to use an existing environment, such as reusing an environment created by `conda`, please note that PDM will _remove_ dependencies not listed in `pyproject.toml` or `pdm.lock` when running `pdm sync --clean` or `pdm remove`. This may lead to destructive consequences. Therefore, try not to share environment among multiple projects.
+!!! warning "既存の環境を使用する"
+既存の環境を使用することを選択した場合、たとえば `conda` によって作成された環境を再利用する場合、PDM は `pdm sync --clean` または `pdm remove` を実行するときに `pyproject.toml` または `pdm.lock` に記載されていない依存関係を削除することに注意してください。これにより、破壊的な結果が生じる可能性があります。したがって、複数のプロジェクト間で環境を共有しないようにしてください。
 
-### Install Python interpreters with PDM
+### PDM で Python インタープリターをインストールする
 
 +++ 2.13.0
 
-PDM supports installing additional Python interpreters from [@indygreg's python-build-standalone](https://github.com/indygreg/python-build-standalone)
-with the `pdm python install` command. For example, to install CPython 3.9.8:
+PDM は、`pdm python install` コマンドを使用して [@indygreg's python-build-standalone](https://github.com/indygreg/python-build-standalone) から追加の Python インタープリターをインストールすることをサポートしています。たとえば、CPython 3.9.8 をインストールするには:
 
 ```bash
 pdm python install 3.9.8
 ```
 
-You can view all available Python versions with `pdm python install --list`.
+`pdm python install --list` を使用して、利用可能なすべての Python バージョンを表示できます。
 
-This will install the Python interpreter into the location specified by `python.install_root` configuration.
+これにより、Python インタープリターが `python.install_root` 構成で指定された場所にインストールされます。
 
-List the currently installed Python interpreters:
+現在インストールされている Python インタープリターを一覧表示します:
 
 ```bash
 pdm python list
 ```
 
-Remove an installed Python interpreter:
+インストールされた Python インタープリターを削除します:
 
 ```bash
 pdm python remove 3.9.8
 ```
 
-Install a free-threaded Python interpreter:
+スレッドセーフな Python インタープリターをインストールします:
 
 ```bash
 pdm python install 3.13t
 ```
 
-!!! TIP "Share installations with Rye"
+!!! TIP "Rye とインストールを共有する"
 
-    PDM installs Python interpreters using the same source as [Rye](https://rye-up.com). If you are using Rye at the same time, you can point the `python.install_root` to the same directory as Rye to share the Python interpreters:
+    PDM は [Rye](https://rye-up.com) と同じソースを使用して Python インタープリターをインストールします。同時に Rye を使用している場合、`python.install_root` を Rye と同じディレクトリに設定して Python インタープリターを共有できます:
 
     ```bash
     pdm config python.install_root ~/.rye/py
     ```
 
-    Afterwards you can manage the installations using either `rye toolchain` or `pdm python`.
+    その後、`rye toolchain` または `pdm python` を使用してインストールを管理できます。
 
-### Installation strategy based on `requires-python`
+### `requires-python` に基づくインストール戦略
 
 +++ 2.16.0
 
-If Python `version` is not given, PDM will try to install the best match for the current platform/arch combination
-based on `requires-python` from `pyproject.toml` (if pyproject.toml or requires-python attribute is not available,
-all install-able Python interpreters are considered).
+Python `version` が指定されていない場合、PDM は `pyproject.toml` の `requires-python` に基づいて現在のプラットフォーム/アーキテクチャの組み合わせに最適なものをインストールしようとします（pyproject.toml または requires-python 属性が利用できない場合、すべてのインストール可能な Python インタープリターが考慮されます）。
 
-Default strategy is `maximum`, i.e. the highest cPython interpreter version will be installed.
+デフォルトの戦略は `maximum` であり、最高の cPython インタープリター バージョンがインストールされます。
 
-If `minimum` is preferred, use the option `--min` and leave `version` empty.
+`minimum` が好まれる場合は、`--min` オプションを使用し、`version` を空のままにします。
 
 ```bash
 pdm python install --min
 ```
 
-The same principles apply to [`pdm use`](../reference/cli.md#use) (incl. an automatic installation feature)
-which make it a good unattended set up command for CI/CD or 'fresh start with existing pyproject.toml' use-cases.
+同じ原則が [`pdm use`](../reference/cli.md#use) にも適用されます（自動インストール機能を含む）。これにより、CI/CD や「既存の pyproject.toml での新しいスタート」のユースケースに適した無人セットアップ コマンドになります。
 
-### Virtualenv or not
+### 仮想環境を使用するかどうか
 
-After you select the Python interpreter, PDM will ask you whether you want to create a virtual environment for the project.
-If you choose **yes**, PDM will create a virtual environment in the project root directory, and use it as the Python interpreter for the project.
+Python インタープリターを選択した後、PDM はプロジェクトの仮想環境を作成するかどうかを尋ねます。
+**はい** を選択すると、PDM はプロジェクトのルートディレクトリに仮想環境を作成し、それをプロジェクトの Python インタープリターとして使用します。
 
-If the selected Python interpreter is in a virtual environment, PDM will use it as the project environment and install dependencies into it.
-Otherwise, `__pypackages__` will be created in the project root and dependencies will be installed into it.
+選択した Python インタープリターが仮想環境にある場合、PDM はそれをプロジェクト環境として使用し、依存関係をそこにインストールします。
+それ以外の場合、プロジェクトのルートに `__pypackages__` が作成され、依存関係がそこにインストールされます。
 
-For the difference between these two approaches, please refer to the corresponding sections in the docs:
+これら 2 つのアプローチの違いについては、ドキュメントの対応するセクションを参照してください:
 
-- [Virtualenv](./venv.md)
+- [仮想環境](./venv.md)
 - [`__pypackages__`(PEP 582)](./pep582.md)
 
-## Library or Application
+## ライブラリまたはアプリケーション
 
-A library and an application differ in many ways. In short, a library is a package that is intended to be installed and used by other projects. In most cases it also needs to be uploaded to PyPI. An application, on the other hand, is one that is directly facing end users and may need to be deployed into some production environments.
+ライブラリとアプリケーションは多くの点で異なります。簡単に言えば、ライブラリは他のプロジェクトによってインストールおよび使用されることを意図したパッケージです。ほとんどの場合、PyPI にアップロードする必要もあります。一方、アプリケーションはエンドユーザーに直接向けられており、いくつかの本番環境にデプロイする必要がある場合があります。
 
-In PDM, if you choose to create a library, PDM will add a `name`, `version` field to the `pyproject.toml` file, as well as a `[build-system]` table for the [build backend](../reference/build.md), which is only useful if your project needs to be built and distributed. So you need to manually add these fields to `pyproject.toml` if you want to change the project from an application to a library. Also, a library project will be installed into the environment when you run `pdm install` or `pdm sync`, unless `--no-self` is specified.
+PDM では、ライブラリを作成することを選択した場合、PDM は `pyproject.toml` ファイルに `name`、`version` フィールド、および [ビルドバックエンド](../reference/build.md) 用の `[build-system]` テーブルを追加します。これは、プロジェクトをビルドおよび配布する必要がある場合にのみ役立ちます。したがって、プロジェクトをアプリケーションからライブラリに変更する場合は、これらのフィールドを手動で `pyproject.toml` に追加する必要があります。また、ライブラリ プロジェクトは、`pdm install` または `pdm sync` を実行すると環境にインストールされます。ただし、`--no-self` が指定されていない限りです。
 
-In `pyproject.toml`, there is a field `distribution` under the `[tool.pdm]` table. If it is set to true, PDM will treat the project as a library.
+`pyproject.toml` には、`[tool.pdm]` テーブルの下に `distribution` フィールドがあります。これが true に設定されている場合、PDM はプロジェクトをライブラリとして扱います。
 
-## Specify `requires-python`
+## `requires-python` を指定する
 
-You need to set an appropriate `requires-python` value for your project. This is an important property that affects how dependencies are resolved. Basically, each package's `requires-python` must _cover_ the project's `requires-python` range. For example, consider the following setup:
+プロジェクトに適切な `requires-python` 値を設定する必要があります。これは、依存関係の解決方法に影響を与える重要なプロパティです。基本的に、各パッケージの `requires-python` はプロジェクトの `requires-python` 範囲をカバーする必要があります。たとえば、次のセットアップを考えてみましょう:
 
-- Project: `requires-python = ">=3.9"`
-- Package `foo`: `requires-python = ">=3.7,<3.11"`
+- プロジェクト: `requires-python = ">=3.9"`
+- パッケージ `foo`: `requires-python = ">=3.7,<3.11"`
 
-Resolving the dependencies will cause a `ResolutionImpossible`:
+依存関係を解決すると、`ResolutionImpossible` が発生します:
 
 ```bash
 Unable to find a resolution because the following dependencies don't work
 on all Python versions defined by the project's `requires-python`
 ```
 
-Because the dependency's `requires-python` is `>=3.7,<3.11`, it _doesn't_ cover the project's `requires-python` range of `>=3.9`. In other words, the project promises to work on Python 3.9, 3.10, 3.11 (and so on), but the dependency doesn't support Python 3.11 (or any higher). Since PDM creates a cross-platform lockfile that should work on all Python versions within the `requires-python` range, it can't find a valid resolution.
-To fix this, you need add a maximum version to `requires-python`, like `>=3.9,<3.11`.
+依存関係の `requires-python` が `>=3.7,<3.11` であるため、プロジェクトの `requires-python` 範囲 `>=3.9` をカバーしていません。言い換えれば、プロジェクトは Python 3.9、3.10、3.11（およびそれ以降）で動作することを約束していますが、依存関係は Python 3.11（またはそれ以上）をサポートしていません。PDM は `requires-python` 範囲内のすべての Python バージョンで動作するクロスプラットフォームのロックファイルを作成するため、有効な解決策を見つけることができません。
+これを修正するには、`requires-python` に最大バージョンを追加する必要があります。たとえば、`>=3.9,<3.11` のようにします。
 
-The value of `requires-python` is a [version specifier as defined in PEP 440](https://peps.python.org/pep-0440/#version-specifiers). Here are some examples:
+`requires-python` の値は [PEP 440 で定義されているバージョン指定子](https://peps.python.org/pep-0440/#version-specifiers) です。以下にいくつかの例を示します:
 
-| `requires-python`       | Meaning                                  |
+| `requires-python`       | 意味                                  |
 | ----------------------- | ---------------------------------------- |
-| `>=3.7`                 | Python 3.7 and above                     |
-| `>=3.7,<3.11`           | Python 3.7, 3.8, 3.9 and 3.10            |
-| `>=3.6,!=3.8.*,!=3.9.*` | Python 3.6 and above, except 3.8 and 3.9 |
+| `>=3.7`                 | Python 3.7 以上                     |
+| `>=3.7,<3.11`           | Python 3.7、3.8、3.9、および 3.10            |
+| `>=3.6,!=3.8.*,!=3.9.*` | Python 3.6 以上、ただし 3.8 および 3.9 を除く |
 
-## Working with older Python versions
+## 古い Python バージョンで作業する
 
 --- 2.19.0
 
-    PDM now supports 3.8 and above as the python version of projects.
+    PDM は現在、プロジェクトの Python バージョンとして 3.8 以上をサポートしています。
 
-Although PDM run on Python 3.8 and above, you can still have lower Python versions for your **working project**. But remember, if your project is a library, which needs to be built, published or installed, you make sure the PEP 517 build backend being used supports the lowest Python version you need. For instance, the default backend `pdm-backend` only works on Python 3.7+, so if you run [`pdm build`](../reference/cli.md#build) on a project with Python 3.6, you will get an error. Most modern build backends have dropped the support for Python 3.6 and lower, so it is highly recommended to upgrade the Python version to 3.7+. Here are the supported Python range for some commonly used build backends, we only list those that support PEP 621 since otherwise PDM can't work with them.
+PDM は Python 3.8 以上で動作しますが、**作業プロジェクト** の Python バージョンを低くすることもできます。ただし、プロジェクトがライブラリであり、ビルド、公開、またはインストールする必要がある場合は、使用している PEP 517 ビルドバックエンドが必要な最低 Python バージョンをサポートしていることを確認してください。たとえば、デフォルトのバックエンド `pdm-backend` は Python 3.7+ でのみ動作するため、Python 3.6 でプロジェクトを実行して [`pdm build`](../reference/cli.md#build) を実行するとエラーが発生します。ほとんどのモダンなビルドバックエンドは Python 3.6 以下のサポートを終了しているため、Python バージョンを 3.7+ にアップグレードすることを強くお勧めします。以下は、一般的に使用されるビルドバックエンドのサポートされている Python 範囲です。PEP 621 をサポートしていないものはリストしていません。PDM はそれらと連携できないためです。
 
-| Backend               | Supported Python | Support PEP 621 |
+| バックエンド               | サポートされている Python | PEP 621 のサポート |
 | --------------------- | ---------------- | --------------- |
-| `pdm-backend`         | `>=3.7`          | Yes             |
-| `setuptools>=60`      | `>=3.7`          | Experimental    |
-| `hatchling`           | `>=3.7`          | Yes             |
-| `flit-core>=3.4`      | `>=3.6`          | Yes             |
-| `flit-core>=3.2,<3.4` | `>=3.4`          | Yes             |
+| `pdm-backend`         | `>=3.7`          | はい             |
+| `setuptools>=60`      | `>=3.7`          | 実験的    |
+| `hatchling`           | `>=3.7`          | はい             |
+| `flit-core>=3.4`      | `>=3.6`          | はい             |
+| `flit-core>=3.2,<3.4` | `>=3.4`          | はい             |
 
-Note that if your project is an application (i.e. without the `name` metadata),
-the above limitation of backends does not apply. Therefore, if you don't need a build backend you can use any Python version `>=2.7`.
+プロジェクトがアプリケーション（つまり、`name` メタデータがない）である場合、上記のバックエンドの制限は適用されません。したがって、ビルドバックエンドが必要ない場合は、任意の Python バージョン `>=2.7` を使用できます。
 
-## Import the project from other package managers
+## 他のパッケージマネージャーからプロジェクトをインポートする
 
-If you are already using other package manager tools like Pipenv or Poetry, it is easy to migrate to PDM.
-PDM provides `import` command so that you don't have to initialize the project manually, it now supports:
+すでに Pipenv や Poetry などの他のパッケージマネージャーツールを使用している場合、PDM に移行するのは簡単です。
+PDM は `import` コマンドを提供しているため、プロジェクトを手動で初期化する必要はありません。現在サポートされているのは次のとおりです:
 
-1. Pipenv's `Pipfile`
-2. Poetry's section in `pyproject.toml`
-3. Flit's section in `pyproject.toml`
-4. `requirements.txt` format used by pip
-5. setuptools `setup.py`(It requires `setuptools` to be installed in the project environment. You can do this by configuring `venv.with_pip` to `true` for venv and `pdm add setuptools` for `__pypackages__`)
+1. Pipenv の `Pipfile`
+2. Poetry の `pyproject.toml` 内のセクション
+3. Flit の `pyproject.toml` 内のセクション
+4. pip が使用する `requirements.txt` 形式
+5. setuptools の `setup.py`（プロジェクト環境に `setuptools` がインストールされている必要があります。これを行うには、venv の場合は `venv.with_pip` を true に設定し、`__pypackages__` の場合は `pdm add setuptools` を設定します）
 
-Also, when you are executing [`pdm init`](../reference/cli.md#init) or [`pdm install`](../reference/cli.md#install), PDM can auto-detect possible files to import if your PDM project has not been initialized yet.
+また、[`pdm init`](../reference/cli.md#init) または [`pdm install`](../reference/cli.md#install) を実行しているときに、PDM プロジェクトがまだ初期化されていない場合、PDM はインポートする可能性のあるファイルを自動検出できます。
 
 !!! info
-Converting a `setup.py` will execute the file with the project interpreter. Make sure `setuptools` is installed with the interpreter and the `setup.py` is trusted.
+`setup.py` を変換するには、プロジェクトインタープリターでファイルを実行します。インタープリターに `setuptools` がインストールされており、`setup.py` が信頼できることを確認してください。
 
-## Working with version control
+## バージョン管理と連携する
 
-You **must** commit the `pyproject.toml` file. You **should** commit the `pdm.lock` and `pdm.toml` file. **Do not** commit the `.pdm-python` file.
+`pyproject.toml` ファイルをコミットする必要があります。`pdm.lock` および `pdm.toml` ファイルをコミットする必要があります。`.pdm-python` ファイルをコミットしないでください。
 
-The `pyproject.toml` file must be committed as it contains the project's build metadata and dependencies needed for PDM.
-It is also commonly used by other python tools for configuration. Read more about the `pyproject.toml` file at
-[Pip documentation](https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/).
+`pyproject.toml` ファイルは、PDM に必要なプロジェクトのビルドメタデータと依存関係が含まれているため、コミットする必要があります。
+また、他の Python ツールによって構成のために一般的に使用されます。`pyproject.toml` ファイルの詳細については、[Pip ドキュメント](https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/) を参照してください。
 
-You should be committing the `pdm.lock` file, by doing so you ensure that all installers are using the same versions of dependencies.
-To learn how to update dependencies see [update existing dependencies](./dependency.md#update-existing-dependencies).
+`pdm.lock` ファイルをコミットする必要があります。これにより、すべてのインストーラーが同じバージョンの依存関係を使用することが保証されます。
+依存関係を更新する方法については、[既存の依存関係を更新する](./dependency.md#update-existing-dependencies) を参照してください。
 
-`pdm.toml` contains some project-wide configuration and it may be useful to commit it for sharing.
+`pdm.toml` にはいくつかのプロジェクト全体の構成が含まれており、共有するためにコミットすることが役立つ場合があります。
 
-`.pdm-python` stores the **Python path** used by the **current** project and doesn't need to be shared.
+`.pdm-python` は、**現在の** プロジェクトで使用されている **Python パス** を保存し、共有する必要はありません。
 
-## Show the current Python environment
+## 現在の Python 環境を表示する
 
 ```bash
 $ pdm info
@@ -191,7 +184,7 @@ Project Root:
 Project Packages:
   /Users/fming/wkspace/github/test-pdm/__pypackages__/3.9
 
-# Show environment info
+# 環境情報を表示する
 $ pdm info --env
 {
   "implementation_name": "cpython",
@@ -208,10 +201,9 @@ $ pdm info --env
 }
 ```
 
-[This command](../reference/cli.md#info) is useful for checking which mode is being used by the project:
+[このコマンド](../reference/cli.md#info) は、プロジェクトで使用されているモードを確認するのに役立ちます:
 
-- If **Project Packages** is `None`, [virtualenv mode](./venv.md) is enabled.
-- Otherwise, [PEP 582 mode](./pep582.md) is enabled.
+- **Project Packages** が `None` の場合、[virtualenv モード](./venv.md) が有効です。
+- それ以外の場合、[PEP 582 モード](./pep582.md) が有効です。
 
-Now, you have set up a new PDM project and get a `pyproject.toml` file. Refer to [metadata section](../reference/pep621.md)
-about how to write `pyproject.toml` properly.
+これで、新しい PDM プロジェクトが設定され、`pyproject.toml` ファイルが作成されました。`pyproject.toml` を適切に記述する方法については、[メタデータセクション](../reference/pep621.md) を参照してください。

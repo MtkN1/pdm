@@ -1,32 +1,29 @@
-# Lifecycle and Hooks
+# ライフサイクルとフック
 
-As any Python deliverable, your project will go through the different phases
-of a Python project lifecycle and PDM provides commands to perform the expected tasks for those phases.
+すべての Python デリバラブルと同様に、プロジェクトは Python プロジェクトのライフサイクルのさまざまなフェーズを経て進行し、PDM はこれらのフェーズの期待されるタスクを実行するためのコマンドを提供します。
 
-It also provides hooks attached to these steps allowing for:
+また、これらのステップにフックを提供し、次のことができます。
 
-- plugins to listen to the [signals][pdm.signals] of the same name.
-- developers to define custom scripts with the same name.
+- プラグインが同じ名前の[シグナル][pdm.signals]をリッスンする。
+- 開発者が同じ名前のカスタムスクリプトを定義する。
 
-Besides, `pre_invoke` signal is emitted before ANY command is invoked, allowing plugins to modify the project or options beforehand.
+さらに、`pre_invoke` シグナルは、任意のコマンドが呼び出される前に発行され、プラグインがプロジェクトやオプションを事前に変更できるようにします。
 
-The built-in commands are currently split into 3 groups:
+組み込みコマンドは現在、次の 3 つのグループに分かれています。
 
-- the [initialization phase](#initialization)
-- the [dependencies management](#dependencies-management).
-- the [publication phase](#publication).
+- [初期化フェーズ](#initialization)
+- [依存関係管理](#dependencies-management)
+- [公開フェーズ](#publication)
 
-You will most probably need to perform some recurrent tasks between the installation and publication phases (housekeeping, linting, testing, ...)
-this is why PDM lets you define your own tasks/phases using [user scripts](#user-scripts).
+インストールフェーズと公開フェーズの間にいくつかの定期的なタスク（ハウスキーピング、リント、テストなど）を実行する必要がある場合があります。これが、PDM が[ユーザースクリプト](#user-scripts)を使用して独自のタスク/フェーズを定義できるようにする理由です。
 
-To provides full flexibility, PDM allows to [skip some hooks and tasks](#skipping) on demand.
+完全な柔軟性を提供するために、PDM は必要に応じて[いくつかのフックとタスクをスキップ](#skipping)することを許可します。
 
-## Initialization
+## 初期化
 
-The initialization phase should occur only once in a project lifetime by running the [`pdm init`](../reference/cli.md#init)
-command to initialize an existing project (prompt to fill the `pyproject.toml` file).
+初期化フェーズは、既存のプロジェクトを初期化するために [`pdm init`](../reference/cli.md#init) コマンドを実行して、プロジェクトのライフタイム中に一度だけ発生する必要があります（`pyproject.toml` ファイルを埋めるためのプロンプト）。
 
-They trigger the following hooks:
+これらは次のフックをトリガーします。
 
 - [`post_init`][pdm.signals.post_init]
 
@@ -39,25 +36,25 @@ flowchart LR
   end
 ```
 
-## Dependencies management
+## 依存関係管理
 
-The dependencies management is required for the developer to be able to work and perform the following:
+依存関係管理は、開発者が作業を行い、次のことを実行するために必要です。
 
-- `lock`: compute a lock file from the `pyproject.toml` requirements.
-- `sync`: synchronize (add/remove/update) PEP582 packages from the lock file and install the current project as editable.
-- `add`: add a dependency
-- `remove`: remove a dependency
+- `lock`: `pyproject.toml` の要件からロックファイルを計算します。
+- `sync`: ロックファイルから PEP582 パッケージを同期（追加/削除/更新）し、現在のプロジェクトを編集可能としてインストールします。
+- `add`: 依存関係を追加します。
+- `remove`: 依存関係を削除します。
 
-All those steps are directly available with the following commands:
+これらのステップは、次のコマンドで直接利用できます。
 
-- [`pdm lock`](../reference/cli.md#lock): execute the `lock` task
-- [`pdm sync`](../reference/cli.md#sync): execute the `sync` task
-- [`pdm install`](../reference/cli.md#install): execute the `sync` task, preceded from `lock` if required
-- [`pdm add`](../reference/cli.md#add): add a dependency requirement, re-lock and then sync
-- [`pdm remove`](../reference/cli.md#remove): remove a dependency requirement, re-lock and then sync
-- [`pdm update`](../reference/cli.md#update): re-lock dependencies from their latest versions and then sync
+- [`pdm lock`](../reference/cli.md#lock): `lock` タスクを実行します。
+- [`pdm sync`](../reference/cli.md#sync): `sync` タスクを実行します。
+- [`pdm install`](../reference/cli.md#install): 必要に応じて `lock` を先行して `sync` タスクを実行します。
+- [`pdm add`](../reference/cli.md#add): 依存関係の要件を追加し、再ロックしてから同期します。
+- [`pdm remove`](../reference/cli.md#remove): 依存関係の要件を削除し、再ロックしてから同期します。
+- [`pdm update`](../reference/cli.md#update): 最新バージョンから依存関係を再ロックし、同期します。
 
-They trigger the following hooks:
+これらは次のフックをトリガーします。
 
 - [`pre_install`][pdm.signals.pre_install]
 - [`post_install`][pdm.signals.post_install]
@@ -87,11 +84,9 @@ flowchart LR
   end
 ```
 
-### Switching Python version
+### Python バージョンの切り替え
 
-This is a special case in dependency management:
-you can switch the current Python version using [`pdm use`](../reference/cli.md#use)
-and it will emit the [`post_use`][pdm.signals.post_use] signal with the new Python interpreter.
+これは依存関係管理の特別なケースです。[`pdm use`](../reference/cli.md#use) を使用して現在の Python バージョンを切り替えることができ、新しい Python インタープリターで [`post_use`][pdm.signals.post_use] シグナルを発行します。
 
 ```mermaid
 flowchart LR
@@ -102,19 +97,19 @@ flowchart LR
   end
 ```
 
-## Publication
+## 公開
 
-As soon as you are ready to publish your package/library, you will require the publication tasks:
+パッケージ/ライブラリを公開する準備が整ったら、次の公開タスクが必要になります。
 
-- `build`: build/compile assets requiring it and package everything into a Python package (sdist, wheel)
-- `upload`: upload/publish the package to a remote PyPI index
+- `build`: アセットをビルド/コンパイルし、Python パッケージ（sdist、wheel）にすべてをパッケージ化します。
+- `upload`: パッケージをリモート PyPI インデックスにアップロード/公開します。
 
-All those steps are available with the following commands:
+これらのステップは、次のコマンドで利用できます。
 
 - [`pdm build`](../reference/cli.md#build)
 - [`pdm publish`](../reference/cli.md#publish)
 
-They trigger the following hooks:
+これらは次のフックをトリガーします。
 
 - [`pre_publish`][pdm.signals.pre_publish]
 - [`post_publish`][pdm.signals.post_publish]
@@ -144,17 +139,17 @@ flowchart LR
   end
 ```
 
-Execution will stop at first failure, hooks included.
+実行は最初の失敗で停止し、フックも含まれます。
 
-## User scripts
+## ユーザースクリプト
 
-[User scripts are detailed in their own section](scripts.md) but you should know that:
+[ユーザースクリプトは独自のセクションで詳しく説明されています](scripts.md)が、次のことを知っておく必要があります。
 
-- each user script can define a `pre_*` and `post_*` script, including composite scripts.
-- each `run` execution will trigger the [`pre_run`][pdm.signals.pre_run] and [`post_run`][pdm.signals.post_run] hooks
-- each script execution will trigger the [`pre_script`][pdm.signals.pre_script] and [`post_script`][pdm.signals.post_script] hooks
+- 各ユーザースクリプトは、`pre_*` および `post_*` スクリプトを定義でき、複合スクリプトも含まれます。
+- 各 `run` 実行は、[`pre_run`][pdm.signals.pre_run] および [`post_run`][pdm.signals.post_run] フックをトリガーします。
+- 各スクリプト実行は、[`pre_script`][pdm.signals.pre_script] および [`post_script`][pdm.signals.post_script] フックをトリガーします。
 
-Given the following `scripts` definition:
+次の `scripts` 定義を考えます。
 
 ```toml
 [tool.pdm.scripts]
@@ -168,7 +163,7 @@ post_composite = ""
 composite = {composite = ["test"]}
 ```
 
-a `pdm run test` will have the following lifecycle:
+`pdm run test` は次のライフサイクルを持ちます。
 
 ```mermaid
 flowchart LR
@@ -191,7 +186,7 @@ flowchart LR
   end
 ```
 
-while `pdm run composite` will have the following:
+一方、`pdm run composite` は次のようになります。
 
 ```mermaid
 flowchart LR
@@ -224,17 +219,13 @@ flowchart LR
   end
 ```
 
-## Skipping
+## スキップ
 
-It is possible to control which task and hook runs for any built-in command as well as custom user scripts using the `--skip` option.
+組み込みコマンドやカスタムユーザースクリプトのタスクとフックの実行を制御するために、`--skip` オプションを使用できます。
 
-It accepts a comma-separated list of hooks/task names to skip
-as well as the predefined `:all`, `:pre` and `:post` shortcuts
-respectively skipping all hooks, all `pre_*` hooks and all `post_*` hooks.
-You can also provide the skip list in `PDM_SKIP_HOOKS` environment variable
-but it will be overridden as soon as the `--skip` parameter is provided.
+これは、スキップするフック/タスク名のカンマ区切りリストと、すべてのフック、すべての `pre_*` フック、およびすべての `post_*` フックをそれぞれスキップするための事前定義された `:all`、`:pre`、および `:post` ショートカットを受け入れます。スキップリストを `PDM_SKIP_HOOKS` 環境変数に提供することもできますが、`--skip` パラメータが指定されると上書きされます。
 
-Given the previous script block, running `pdm run --skip=:pre,post_test composite` will result in the following reduced lifecycle:
+前のスクリプトブロックを考えると、`:pre,post_test composite` をスキップする `pdm run --skip` を実行すると、次のようにライフサイクルが短縮されます。
 
 ```mermaid
 flowchart LR

@@ -2,38 +2,38 @@
 <img src="assets/logo_big.png" alt="PDM logo">
 </div>
 
-# Introduction
+# 紹介
 
-PDM, as described, is a modern Python package and dependency manager supporting the latest PEP standards. But it is more than a package manager. It boosts your development workflow in various aspects.
+PDM は、最新の PEP 標準をサポートするモダンな Python パッケージおよび依存関係マネージャーとして説明されています。しかし、それは単なるパッケージマネージャーではありません。さまざまな側面で開発ワークフローを強化します。
 
 <script id="asciicast-jnifN30pjfXbO9We2KqOdXEhB" src="https://asciinema.org/a/jnifN30pjfXbO9We2KqOdXEhB.js" async></script>
 
-## Feature highlights
+## 特徴のハイライト
 
-- Simple and fast dependency resolver, mainly for large binary distributions.
-- A [PEP 517] build backend.
-- [PEP 621] project metadata.
-- Flexible and powerful plug-in system.
-- Versatile user scripts.
-- Install Pythons using [indygreg's python-build-standalone](https://github.com/indygreg/python-build-standalone).
-- Opt-in centralized installation cache like [pnpm].
+- 大規模なバイナリ配布物向けのシンプルで高速な依存関係解決ツール。
+- [PEP 517] ビルドバックエンド。
+- [PEP 621] プロジェクトメタデータ。
+- 柔軟で強力なプラグインシステム。
+- 多用途なユーザースクリプト。
+- [indygreg's python-build-standalone](https://github.com/indygreg/python-build-standalone) を使用して Python をインストールします。
+- [pnpm] のようなオプトインの集中インストールキャッシュ。
 
 [pep 517]: https://www.python.org/dev/peps/pep-0517
 [pep 621]: https://www.python.org/dev/peps/pep-0621
 [pnpm]: https://pnpm.io/motivation#saving-disk-space-and-boosting-installation-speed
 
-## Installation
+## インストール
 
-PDM requires Python 3.8+ to be installed. It works on multiple platforms including Windows, Linux and macOS.
+PDM をインストールするには Python 3.8 以上が必要です。Windows、Linux、macOS を含む複数のプラットフォームで動作します。
 
 !!! note
-    You can still have your project working on lower Python versions, read how to do it [here](usage/project.md#working-with-python-37).
+    プロジェクトをより低い Python バージョンで動作させることもできます。方法については[こちら](usage/project.md#working-with-python-37)を参照してください。
 
-### Recommended installation method
+### 推奨インストール方法
 
-PDM requires python version 3.8 or higher.
+PDM をインストールするには Python バージョン 3.8 以上が必要です。
 
-Like Pip, PDM provides an installation script that will install PDM into an isolated environment.
+Pip と同様に、PDM は PDM を分離された環境にインストールするインストールスクリプトを提供します。
 
 === "Linux/Mac"
 
@@ -48,27 +48,27 @@ Like Pip, PDM provides an installation script that will install PDM into an isol
     ```
 
 !!! note
-    On Windows, if you do not have the optional `py` launcher installed (including if you installed Python through the Microsoft store), replace `py` with `python`.
+    Windows では、オプションの `py` ランチャーがインストールされていない場合（Microsoft ストアから Python をインストールした場合を含む）、`py` を `python` に置き換えてください。
 
-For security reasons, you should verify the checksum of `install-pdm.py`.
-It can be downloaded from [install-pdm.py.sha256](https://pdm-project.org/install-pdm.py.sha256).
+セキュリティ上の理由から、`install-pdm.py` のチェックサムを確認する必要があります。
+[install-pdm.py.sha256](https://pdm-project.org/install-pdm.py.sha256) からダウンロードできます。
 
-For example, on Linux/Mac:
+たとえば、Linux/Mac では次のようにします。
 
 ```bash
 curl -sSLO https://pdm-project.org/install-pdm.py
 curl -sSL https://pdm-project.org/install-pdm.py.sha256 | shasum -a 256 -c -
-# Run the installer
+# インストーラーを実行します
 python3 install-pdm.py [options]
 ```
 
-The installer will install PDM into the user site and the location depends on the system:
+インストーラーは PDM をユーザーサイトにインストールし、場所はシステムによって異なります。
 
-- `$HOME/.local/bin` for Unix
-- `$HOME/Library/Python/<version>/bin` for MacOS
-- `%APPDATA%\Python\Scripts` on Windows
+- Unix の場合は `$HOME/.local/bin`
+- MacOS の場合は `$HOME/Library/Python/<version>/bin`
+- Windows の場合は `%APPDATA%\Python\Scripts`
 
-You can pass additional options to the script to control how PDM is installed:
+スクリプトに追加のオプションを渡して、PDM のインストール方法を制御できます。
 
 ```bash
 usage: install-pdm.py [-h] [-v VERSION] [--prerelease] [--remove] [-p PATH] [-d DEP]
@@ -83,9 +83,9 @@ optional arguments:
   -d DEP, --dep DEP | envvar: PDM_DEPS     Specify additional dependencies, can be given multiple times
 ```
 
-You can either pass the options after the script or set the env var value.
+オプションをスクリプトの後に渡すか、環境変数の値を設定できます。
 
-### Other installation methods
+### その他のインストール方法
 
 === "Homebrew"
 
@@ -112,20 +112,20 @@ You can either pass the options after the script or set the env var value.
     pipx install pdm
     ```
 
-    Install the head version of GitHub repository.
-    Make sure you have installed [Git LFS](https://git-lfs.github.com/) on your system.
+    GitHub リポジトリのヘッドバージョンをインストールします。
+    システムに [Git LFS](https://git-lfs.github.com/) がインストールされていることを確認してください。
 
     ```bash
     pipx install git+https://github.com/pdm-project/pdm.git@main#egg=pdm
     ```
 
-    To install PDM with all features:
+    PDM をすべての機能でインストールするには次のようにします。
 
     ```bash
     pipx install pdm[all]
     ```
 
-    See also: <https://pypa.github.io/pipx/>
+    詳細については、<https://pypa.github.io/pipx/> を参照してください。
 
 === "pip"
 
@@ -135,20 +135,18 @@ You can either pass the options after the script or set the env var value.
 
 === "asdf"
 
-    Assuming you have [asdf](https://asdf-vm.com/) installed.
+    [asdf](https://asdf-vm.com/) がインストールされていることを前提としています。
     ```
     asdf plugin add pdm
     asdf local pdm latest
     asdf install pdm
     ```
 
-=== "inside project"
+=== "プロジェクト内"
 
-    By copying the [Pyprojectx](https://pyprojectx.github.io/) wrapper scripts to a project, you can install PDM as
-    (npm-style) dev dependency inside that project. This allows different projects/branches to use different PDM versions.
+    [Pyprojectx](https://pyprojectx.github.io/) ラッパースクリプトをプロジェクトにコピーすることで、PDM を (npm スタイルの) 開発依存関係としてプロジェクト内にインストールできます。これにより、異なるプロジェクト/ブランチが異なる PDM バージョンを使用できるようになります。
 
-    To [initialize a new or existing project](https://pyprojectx.github.io/usage/#initialize-a-new-or-existing-project),
-    cd into the project folder and:
+    [新しいプロジェクトまたは既存のプロジェクトを初期化する](https://pyprojectx.github.io/usage/#initialize-a-new-or-existing-project) には、プロジェクトフォルダーに移動して次のようにします。
 
     === "Linux/Mac"
 
@@ -164,7 +162,7 @@ You can either pass the options after the script or set the env var value.
         .\pw --add pdm
         ```
 
-    When installing pdm with this method, you need to run all `pdm` commands through the `pw` wrapper:
+    この方法で pdm をインストールする場合、すべての `pdm` コマンドを `pw` ラッパーを通じて実行する必要があります。
 
     === "Linux/Mac/Windows"
 
@@ -172,15 +170,15 @@ You can either pass the options after the script or set the env var value.
         ./pw pdm install
         ```
 
-### Update the PDM version
+### PDM バージョンの更新
 
 ```bash
 pdm self update
 ```
 
-### Uninstallation
+### アンインストール
 
-If you need to remove PDM from your system, you can use the following script:
+システムから PDM を削除する必要がある場合は、次のスクリプトを使用できます。
 
 === "Linux/Mac"
 
@@ -194,27 +192,27 @@ If you need to remove PDM from your system, you can use the following script:
     powershell -ExecutionPolicy ByPass -c "irm https://pdm-project.org/install-pdm.py | py - --remove"
     ```
 
-If you installed PDM using a third-party package management tool like Homebrew, you can also uninstall PDM using the tool's uninstall method, such as `brew uninstall pdm`.
+Homebrew などのサードパーティのパッケージ管理ツールを使用して PDM をインストールした場合は、ツールのアンインストール方法を使用して PDM をアンインストールすることもできます。たとえば、`brew uninstall pdm` などです。
 
-## Packaging Status
+## パッケージングステータス
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/pdm.svg)](https://repology.org/project/pdm/versions)
 
-## Shell Completion
+## シェル補完
 
-PDM supports generating completion scripts for Bash, Zsh, Fish or Powershell. Here are some common locations for each shell:
+PDM は Bash、Zsh、Fish、または Powershell 用の補完スクリプトの生成をサポートしています。各シェルの一般的な場所は次のとおりです。
 
 === "Bash"
 
     ```bash
-    pdm completion bash > /etc/bash_completion.d/pdm.bash-completion # Requires root (sudo). For an alternative, see next
-    pdm completion bash > ~/.bash_completion # Does not require root (sudo). Installed only for your user account
+    pdm completion bash > /etc/bash_completion.d/pdm.bash-completion # ルート (sudo) が必要です。代替手段については次を参照してください。
+    pdm completion bash > ~/.bash_completion # ルート (sudo) は不要です。ユーザーアカウントにのみインストールされます。
     ```
 
 === "Zsh"
 
     ```bash
-    # Make sure ~/.zfunc is added to fpath, before compinit.
+    # ~/.zfunc が fpath に追加されていることを確認し、compinit の前に追加します。
     pdm completion zsh > ~/.zfunc/_pdm
     ```
 
@@ -225,7 +223,7 @@ PDM supports generating completion scripts for Bash, Zsh, Fish or Powershell. He
     pdm completion zsh > $ZSH_CUSTOM/plugins/pdm/_pdm
     ```
 
-    Then make sure pdm plugin is enabled in ~/.zshrc
+    次に、~/.zshrc で pdm プラグインが有効になっていることを確認します。
 
 === "Fish"
 
@@ -236,31 +234,31 @@ PDM supports generating completion scripts for Bash, Zsh, Fish or Powershell. He
 === "Powershell"
 
     ```ps1
-    # Create a directory to store completion scripts
+    # 補完スクリプトを保存するディレクトリを作成します。
     mkdir $PROFILE\..\Completions
     echo @'
     Get-ChildItem "$PROFILE\..\Completions\" | ForEach-Object {
         . $_.FullName
     }
     '@ | Out-File -Append -Encoding utf8 $PROFILE
-    # Generate script
+    # スクリプトを生成します。
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser
     pdm completion powershell | Out-File -Encoding utf8 $PROFILE\..\Completions\pdm_completion.ps1
     ```
 
-## Virtualenv and PEP 582
+## Virtualenv と PEP 582
 
-PDM offers experimental support for [PEP 582](https://www.python.org/dev/peps/pep-0582/) as an opt-in feature, in addition to virtualenv management. Although [the Python Steering Council has rejected PEP 582][rejected], you can still test it out using PDM.
+PDM は、仮想環境管理に加えて、オプトイン機能として [PEP 582](https://www.python.org/dev/peps/pep-0582/) の実験的サポートを提供しています。Python ステアリング カウンシルは [PEP 582 を拒否しました][rejected] が、PDM を使用してテストすることはできます。
 
-To learn more about the two modes, refer to the relevant chapters on [Working with virtualenv](usage/venv.md) and [Working with PEP 582](usage/pep582.md).
+2 つのモードの詳細については、[仮想環境の使用](usage/venv.md) および [PEP 582 の使用](usage/pep582.md) に関する関連章を参照してください。
 
 [rejected]: https://discuss.python.org/t/pep-582-python-local-packages-directory/963/430
 
-## PDM Eco-system
+## PDM エコシステム
 
-[Awesome PDM](https://github.com/pdm-project/awesome-pdm) is a curated list of awesome PDM plugins and resources.
+[Awesome PDM](https://github.com/pdm-project/awesome-pdm) は、素晴らしい PDM プラグインとリソースのキュレーションされたリストです。
 
-## Sponsors
+## スポンサー
 
 <p align="center">
     <a href="https://cdn.jsdelivr.net/gh/pdm-project/sponsors/sponsors.svg">
