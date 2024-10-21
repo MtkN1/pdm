@@ -1,0 +1,2160 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../config/">
+      
+      
+        <link rel="next" href="../hooks/">
+      
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
+    
+    
+      
+        <title>PDM スクリプト - PDM</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sans";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_markdown_exec_pyodide.css">
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-RP4PM5PGLN"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-RP4PM5PGLN",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-RP4PM5PGLN",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pdm" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+<span class="twemoji" style="vertical-align: middle;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 20.408c-.492.308-.903.546-1.192.709q-.23.129-.463.252h-.002a.75.75 0 0 1-.686 0 17 17 0 0 1-.465-.252 31 31 0 0 1-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31 31 0 0 1 14 20.408"/></svg>
+</span>
+<a class="pdm-expansions" style="display: none;">Python Dependency Manager</a>
+
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PDM" class="md-header__button md-logo" aria-label="PDM" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PDM
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PDM スクリプト
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/en/" hreflang="en" class="md-select__link">
+              🇬🇧 English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/zh-cn/" hreflang="zh" class="md-select__link">
+              🇨🇳 简体中文
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pdm-project/pdm" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  使用法
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/pep621/" class="md-tabs__link">
+          
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../dev/write/" class="md-tabs__link">
+          
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://github.com/sponsors/pdm-project" class="md-tabs__link">
+        
+  
+    
+  
+  Sponsor
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PDM" class="md-nav__button md-logo" aria-label="PDM" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    PDM
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pdm-project/pdm" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    使用法
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            使用法
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    紹介
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    新しいプロジェクト
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dependency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    依存関係を管理する
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ロックファイル
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            ロックファイル
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lockfile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ロックファイル
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lock-targets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    特定のプラットフォームまたは Python バージョン用にロックする
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    uv を使用する (実験的)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../publish/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ビルドと公開
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    プロジェクトを構成する
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    PDM スクリプト
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    PDM スクリプト
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      任意のスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      単一ファイルスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ユーザースクリプト
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ユーザースクリプト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      cmd
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      shell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    <span class="md-ellipsis">
+      call
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composite" class="md-nav__link">
+    <span class="md-ellipsis">
+      composite
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      スクリプトオプション
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="スクリプトオプション">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#env" class="md-nav__link">
+    <span class="md-ellipsis">
+      env
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      env_file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working_dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      working_dir
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#site_packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      site_packages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      共有オプション
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      引数プレースホルダー
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdm_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      {pdm} プレースホルダー
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      スクリプトのリストを表示する
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      プレ &amp; ポストスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      フックスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      スクリプトのスキップ
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hooks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ライフサイクルとフック
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高度な使用法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../venv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    仮想環境を使用する
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pep582/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PEP 582 を使用する
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    テンプレートからプロジェクトを作成する
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/pep621/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PEP 621 Metadata
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configurations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/build/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Build Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/cli/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Development
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/write/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PDM Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/fixtures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pytest fixtures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing to PDM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev/benchmark/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Benchmark
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/sponsors/pdm-project" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sponsor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      任意のスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      単一ファイルスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ユーザースクリプト
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ユーザースクリプト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      cmd
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      shell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    <span class="md-ellipsis">
+      call
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composite" class="md-nav__link">
+    <span class="md-ellipsis">
+      composite
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      スクリプトオプション
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="スクリプトオプション">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#env" class="md-nav__link">
+    <span class="md-ellipsis">
+      env
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      env_file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working_dir" class="md-nav__link">
+    <span class="md-ellipsis">
+      working_dir
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#site_packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      site_packages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      共有オプション
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      引数プレースホルダー
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdm_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      {pdm} プレースホルダー
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      スクリプトのリストを表示する
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      プレ &amp; ポストスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      フックスクリプト
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      スクリプトのスキップ
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="pdm">PDM スクリプト<a class="headerlink" href="#pdm" title="Permanent link">#</a></h1>
+<p>PDM を使用すると、<code>npm run</code> のように、ローカルパッケージが読み込まれた状態で任意のスクリプトやコマンドを実行できます。</p>
+<h2 id="_1">任意のスクリプト<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>flask<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">54321</span>
+</code></pre></div></td></tr></table></div>
+<p>これにより、プロジェクト環境内のパッケージを認識した環境で <code>flask run -p 54321</code> が実行されます。</p>
+<h2 id="_2">単一ファイルスクリプト<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Added in version 2.16.0</p>
+</div>
+<p>PDM は、<a href="https://peps.python.org/pep-0723/">インラインスクリプトメタデータ</a> を使用して単一ファイルスクリプトを実行できます。</p>
+<p>以下は、埋め込みメタデータを含むスクリプトの例です:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># test_script.py</span>
+<span class="c1"># /// script</span>
+<span class="c1"># requires-python = &quot;&gt;=3.11&quot;</span>
+<span class="c1"># dependencies = [</span>
+<span class="c1">#   &quot;requests&lt;3&quot;,</span>
+<span class="c1">#   &quot;rich&quot;,</span>
+<span class="c1"># ]</span>
+<span class="c1"># ///</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://peps.python.org/api/peps.json&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">pprint</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()][:</span><span class="mi">10</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+<p>これを <code>pdm run test_script.py</code> で実行すると、指定された依存関係がインストールされた一時環境が作成され、スクリプトが実行されます:</p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">[</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;PEP Purpose and Guidelines&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Procedure for Adding New Modules&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;Guidelines for Handling Bug Reports&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;Deprecation of Standard Modules&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;Guidelines for Language Evolution&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;Bug Fix Releases&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;Style Guide for C Code&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;Style Guide for Python Code&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="s1">&#39;Sample Plaintext PEP Template&#39;</span><span class="p">),</span>
+<span class="err">│</span>   <span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;Voting Guidelines&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+前回作成された環境を再利用したい場合は、<code>--reuse-env</code> オプションを追加します。
+また、スクリプトメタデータに <code>[tool.pdm]</code> セクションを追加して PDM を構成することもできます。例えば:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># test_script.py</span>
+<span class="c1"># /// script</span>
+<span class="c1"># requires-python = &quot;&gt;=3.11&quot;</span>
+<span class="c1"># dependencies = [</span>
+<span class="c1">#   &quot;requests&lt;3&quot;,</span>
+<span class="c1">#   &quot;rich&quot;,</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># [[tool.pdm.source]]  # カスタムインデックスを使用する</span>
+<span class="c1"># url = &quot;https://mypypi.org/simple&quot;</span>
+<span class="c1"># name = &quot;pypi&quot;</span>
+<span class="c1"># ///</span>
+</code></pre></div></td></tr></table></div>
+<p>詳細については、<a href="https://packaging.python.org/en/latest/specifications/inline-script-metadata/#inline-script-metadata">仕様</a> を参照してください。</p>
+<h2 id="_3">ユーザースクリプト<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<p>PDM は、<code>pyproject.toml</code> のオプションの <code>[tool.pdm.scripts]</code> セクションでカスタムスクリプトショートカットもサポートしています。</p>
+<div class="admonition note">
+<p class="admonition-title"><code>[project.scripts]</code> と混同しないでください</p>
+<p><code>pyproject.toml</code> には別のフィールド <code>[project.scripts]</code> があり、スクリプトは <code>pdm run</code> で実行できます。これは、パッケージと一緒にインストールされるコンソールスクリプトエントリポイントを定義するために使用されます。したがって、プロジェクト自体が環境にインストールされた後にのみ実行可能です。つまり、<code>distribution = true</code> である必要があります。</p>
+<p>対照的に、<code>[tool.pdm.scripts]</code> はプロジェクトで実行するタスクを定義します。これは、<code>distribution</code> が <code>true</code> か <code>false</code> かに関係なくプロジェクトに対して機能します。タスクは主に開発およびテスト目的のためのものであり、後で示すように、より多くのタイプと設定をサポートします。<code>Makefile</code> の代替として考えることができます。プロジェクトをインストールする必要はありませんが、<code>pyproject.toml</code> ファイルが存在する必要があります。</p>
+<p><code>[project.scripts]</code> についての詳細な説明は<a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts">こちら</a> を参照してください。</p>
+</div>
+<p>次に、<code>pdm run &lt;script_name&gt;</code> を実行して、PDM プロジェクトのコンテキストでスクリプトを呼び出すことができます。例えば:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>そして、ターミナルで:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>start
+Flask<span class="w"> </span>サーバーが<span class="w"> </span>http://127.0.0.1:54321<span class="w"> </span>で開始されました
+</code></pre></div></td></tr></table></div>
+<p>後続の引数はコマンドに追加されます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>start<span class="w"> </span>-h<span class="w"> </span><span class="m">0</span>.0.0.0
+Flask<span class="w"> </span>サーバーが<span class="w"> </span>http://0.0.0.0:54321<span class="w"> </span>で開始されました
+</code></pre></div></td></tr></table></div>
+<div class="admonition note">
+<p class="admonition-title">Yarn のようなスクリプトショートカット</p>
+<p>スクリプトが組み込みまたはプラグイン提供のコマンドと競合しない限り、すべてのスクリプトをルートコマンドとして利用できる組み込みショートカットがあります。
+つまり、<code>start</code> スクリプトがある場合、<code>pdm run start</code> と <code>pdm start</code> の両方を実行できます。
+ただし、<code>install</code> スクリプトがある場合、<code>pdm run install</code> のみがそれを実行し、<code>pdm install</code> は組み込みの <code>install</code> コマンドを実行します。</p>
+</div>
+<p>PDM は 4 種類のスクリプトをサポートしています:</p>
+<h3 id="cmd"><code>cmd</code><a class="headerlink" href="#cmd" title="Permanent link">#</a></h3>
+<p>プレーンテキストスクリプトは通常のコマンドとして扱われますが、明示的に指定することもできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">cmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>場合によっては、パラメータ間にコメントを追加したい場合など、コマンドを配列として指定する方が便利です:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">cmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;flask&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;run&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="c1"># ここに常にポート 54321 を使用することに関する重要なコメント</span>
+<span class="w">    </span><span class="s2">&quot;-p&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;54321&quot;</span>
+<span class="p">]}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="shell"><code>shell</code><a class="headerlink" href="#shell" title="Permanent link">#</a></h3>
+<p>シェルスクリプトを使用して、パイプラインや出力リダイレクトなどのシェル固有のタスクを実行できます。
+これは基本的に <code>subprocess.Popen()</code> を <code>shell=True</code> で実行します:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">filter_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">shell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;cat error.log|grep CRITICAL &gt; critical.log&quot;</span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="call"><code>call</code><a class="headerlink" href="#call" title="Permanent link">#</a></h3>
+<p>スクリプトは <code>&lt;module_name&gt;:&lt;func_name&gt;</code> の形式で Python 関数を呼び出すように定義することもできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">foobar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">call</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;foo_package.bar_module:main&quot;</span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>関数にリテラル引数を渡すこともできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">foobar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">call</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;foo_package.bar_module:main(&#39;dev&#39;)&quot;</span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="composite"><code>composite</code><a class="headerlink" href="#composite" title="Permanent link">#</a></h3>
+<p>このスクリプトは他の定義されたスクリプトを実行できます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">lint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flake8&quot;</span>
+<span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest&quot;</span>
+<span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">composite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;lint&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">]}</span>
+</code></pre></div></td></tr></table></div>
+<p><code>pdm run all</code> を実行すると、最初に <code>lint</code> が実行され、次に <code>lint</code> が成功した場合に <code>test</code> が実行されます。</p>
+<div class="admonition tip">
+<p class="admonition-title">Added in version 2.13.0</p>
+</div>
+<p>デフォルトの動作を上書きして、失敗後に残りのスクリプトの実行を続行するには、<code>keep_going</code> オプションを <code>true</code> に設定します:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">lint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flake8&quot;</span>
+<span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest&quot;</span>
+<span class="n">all</span><span class="p">.</span><span class="n">composite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;lint&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">]</span>
+<span class="n">all</span><span class="p">.</span><span class="n">keep_going</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</code></pre></div></td></tr></table></div>
+<p><code>keep_going</code> が <code>true</code> に設定されている場合、複合スクリプトの戻りコードはすべて成功した場合は '0'、または最後に失敗した個々のスクリプトのコードになります。</p>
+<p>呼び出されたスクリプトに引数を提供することもできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">lint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flake8&quot;</span>
+<span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest&quot;</span>
+<span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">composite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;lint mypackage/&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test -v tests/&quot;</span><span class="p">]}</span>
+</code></pre></div></td></tr></table></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>コマンドラインで渡された引数は、呼び出された各タスクに渡されます。</p>
+</div>
+<p>複数のコマンドを組み合わせるために <code>composite</code> スクリプトを使用することもできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">mytask</span><span class="p">.</span><span class="n">composite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;echo &#39;Hello&#39;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;echo &#39;World&#39;&quot;</span>
+<span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="_4">スクリプトオプション<a class="headerlink" href="#_4" title="Permanent link">#</a></h2>
+<h3 id="env"><code>env</code><a class="headerlink" href="#env" title="Permanent link">#</a></h3>
+<p>現在のシェルで設定されたすべての環境変数は <code>pdm run</code> によって参照され、実行時に展開されます。
+さらに、<code>pyproject.toml</code> にいくつかの固定環境変数を定義することもできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span>
+<span class="n">start</span><span class="p">.</span><span class="n">env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">FOO</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">FLASK_DEBUG</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>複合辞書を定義するために <a href="https://github.com/toml-lang/toml">TOML の構文</a> を使用する方法に注意してください。</p>
+<div class="admonition note">
+<p class="admonition-title">環境変数の置換について</p>
+<p>スクリプト仕様の変数はすべてのスクリプトタイプで置換できます。<code>cmd</code> スクリプトでは、すべてのプラットフォームで <code>${VAR}</code> 構文のみがサポートされますが、<code>shell</code> スクリプトでは構文はプラットフォーム依存です。たとえば、Windows の cmd は <code>%VAR%</code> を使用し、bash は <code>$VAR</code> を使用します。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>複合タスクレベルで指定された環境変数は、呼び出されたタスクによって定義されたものを上書きします。</p>
+</div>
+<h3 id="env_file"><code>env_file</code><a class="headerlink" href="#env_file" title="Permanent link">#</a></h3>
+<p>すべての環境変数を dotenv ファイルに保存し、PDM に読み取らせることもできます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span>
+<span class="n">start</span><span class="p">.</span><span class="n">env_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;.env&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>dotenv ファイル内の変数は既存の環境変数を上書きしません。
+既存の環境変数を上書きするために dotenv ファイルを使用する場合は、次のようにします:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span>
+<span class="n">start</span><span class="p">.</span><span class="n">env_file</span><span class="p">.</span><span class="n">override</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;.env&quot;</span>
+</code></pre></div></td></tr></table></div>
+<div class="admonition note">
+<p class="admonition-title">環境変数の読み込み順序</p>
+<p>異なるソースから読み込まれる環境変数は次の順序で読み込まれ、最終的なソースリストが構築されます:</p>
+<ol>
+<li>OS 環境変数</li>
+<li>プロジェクト環境変数（<code>PDM_PROJECT_ROOT</code>、<code>PATH</code>、<code>VIRTUAL_ENV</code> など）</li>
+<li><code>env_file</code> で指定された dotenv ファイル</li>
+<li><code>env</code> で指定された環境変数マッピング</li>
+</ol>
+<p>後のソースからの環境変数は、前のソースからのものを上書きします。
+複合タスクレベルで指定された dotenv ファイルは、呼び出されたタスクによって定義されたものを上書きします。</p>
+<p>環境変数は、前のソースから読み込まれた別の環境変数を参照することができます。たとえば:</p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>VAR=42
+FOO=hello-${VAR}
+</code></pre></div></td></tr></table></div>
+は <code>FOO=hello-42</code> になります。参照には <code>${VAR:-default}</code> 構文を使用してデフォルト値を含めることもできます。</p>
+</div>
+<h3 id="working_dir"><code>working_dir</code><a class="headerlink" href="#working_dir" title="Permanent link">#</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Added in version 2.13.0</p>
+</div>
+<p>スクリプトの現在の作業ディレクトリを設定できます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">start</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span>
+<span class="n">start</span><span class="p">.</span><span class="n">working_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;subdir&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>相対パスはプロジェクトルートに対して解決されます。</p>
+<h3 id="site_packages"><code>site_packages</code><a class="headerlink" href="#site_packages" title="Permanent link">#</a></h3>
+<p>実行環境が外部の Python インタープリターから適切に分離されていることを確認するために、
+選択されたインタープリターの site-packages は <code>sys.path</code> に読み込まれません。ただし、次のいずれかの条件が満たされる場合を除きます:</p>
+<ol>
+<li>実行可能ファイルが <code>PATH</code> から取得され、<code>__pypackages__</code> フォルダー内にない場合。</li>
+<li><code>-s/--site-packages</code> フラグが <code>pdm run</code> に続く場合。</li>
+<li>スクリプトテーブルまたはグローバル設定キー <code>_</code> に <code>site_packages = true</code> がある場合。</li>
+</ol>
+<p>PEP 582 が有効になっている場合（<code>pdm run</code> プレフィックスなしで実行される場合）、site-packages は常に読み込まれます。</p>
+<h3 id="_5">共有オプション<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
+<p><code>pdm run</code> で実行されるすべてのタスクにオプションを共有したい場合は、
+<code>[tool.pdm.scripts]</code> テーブルの特別なキー <code>_</code> の下に書くことができます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">_</span><span class="p">.</span><span class="n">env_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;.env&quot;</span>
+<span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask run -p 54321&quot;</span>
+<span class="n">migrate_db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;flask db upgrade&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>さらに、タスク内では、<code>PDM_PROJECT_ROOT</code> 環境変数がプロジェクトルートに設定されます。</p>
+<h3 id="_6">引数プレースホルダー<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
+<p>デフォルトでは、すべてのユーザー提供の追加引数はコマンドに単純に追加されます（または <code>composite</code> タスクの場合はすべてのコマンドに追加されます）。</p>
+<p>ユーザー提供の追加引数をより詳細に制御したい場合は、<code>{args}</code> プレースホルダーを使用できます。
+これはすべてのスクリプトタイプで利用可能であり、それぞれに適切に補間されます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;echo &#39;--before {args} --after&#39;&quot;</span>
+<span class="n">shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">shell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;echo &#39;--before {args} --after&#39;&quot;</span><span class="p">}</span>
+<span class="n">composite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">composite</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cmd --something&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;shell {args}&quot;</span><span class="p">]}</span>
+</code></pre></div></td></tr></table></div>
+<p>次の補間が生成されます（これらは実際のスクリプトではなく、補間を説明するためのものです）:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>cmd<span class="w"> </span>--user<span class="w"> </span>--provided
+--before<span class="w"> </span>--user<span class="w"> </span>--provided<span class="w"> </span>--after
+$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>cmd
+--before<span class="w"> </span>--after
+$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>shell<span class="w"> </span>--user<span class="w"> </span>--provided
+--before<span class="w"> </span>--user<span class="w"> </span>--provided<span class="w"> </span>--after
+$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>shell
+--before<span class="w"> </span>--after
+$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>composite<span class="w"> </span>--user<span class="w"> </span>--provided
+cmd<span class="w"> </span>--something
+shell<span class="w"> </span>--before<span class="w"> </span>--user<span class="w"> </span>--provided<span class="w"> </span>--after
+$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>composite
+cmd<span class="w"> </span>--something
+shell<span class="w"> </span>--before<span class="w"> </span>--after
+</code></pre></div></td></tr></table></div>
+<p>ユーザー引数が提供されていない場合に使用されるデフォルト値をオプションで提供できます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;echo &#39;--before {args:--default --value} --after&#39;&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>次のようになります:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--user<span class="w"> </span>--provided
+--before<span class="w"> </span>--user<span class="w"> </span>--provided<span class="w"> </span>--after
+$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
+--before<span class="w"> </span>--default<span class="w"> </span>--value<span class="w"> </span>--after
+</code></pre></div></td></tr></table></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>プレースホルダーが検出されると、引数は追加されなくなります。
+これは <code>composite</code> スクリプトにとって重要です。なぜなら、サブタスクの 1 つでプレースホルダーが検出されると、引数はサブタスクに追加されなくなるためです。
+引数が必要なすべてのネストされたコマンドにプレースホルダーを明示的に渡す必要があります。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>call</code> スクリプトは <code>{args}</code> プレースホルダーをサポートしていません。これらは <code>sys.argv</code> に直接アクセスして複雑なケースを処理できます。</p>
+</div>
+<h3 id="pdm_1"><code>{pdm}</code> プレースホルダー<a class="headerlink" href="#pdm_1" title="Permanent link">#</a></h3>
+<p>複数の PDM インストールがある場合や、<code>pdm</code> が異なる名前でインストールされている場合があります。
+これは、たとえば CI/CD の状況や、異なるリポジトリで異なる PDM バージョンを使用する場合に発生する可能性があります。
+スクリプトをより堅牢にするために、スクリプトを実行している PDM エントリポイントを使用するために <code>{pdm}</code> を使用できます。
+これは <code>{sys.executable} -m pdm</code> に展開されます。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">whoami</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">shell</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;echo `{pdm} -V` was called as &#39;{pdm} -V&#39;&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p>次の出力が生成されます:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>pdm<span class="w"> </span>whoami
+PDM,<span class="w"> </span>version<span class="w"> </span><span class="m">0</span>.1.dev2501+g73651b7.d20231115<span class="w"> </span>was<span class="w"> </span>called<span class="w"> </span>as<span class="w"> </span>/usr/bin/python3<span class="w"> </span>-m<span class="w"> </span>pdm<span class="w"> </span>-V
+
+$<span class="w"> </span>pdm2.8<span class="w"> </span>whoami
+PDM,<span class="w"> </span>version<span class="w"> </span><span class="m">2</span>.8.0<span class="w"> </span>was<span class="w"> </span>called<span class="w"> </span>as<span class="w"> </span>&lt;snip&gt;/venvs/pdm2-8/bin/python<span class="w"> </span>-m<span class="w"> </span>pdm<span class="w"> </span>-V
+</code></pre></div></td></tr></table></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>上記の例では PDM 2.8 を使用していますが、この機能は 2.10 シリーズで導入され、ショーケースのためにのみバックポートされました。</p>
+</div>
+<h2 id="_7">スクリプトのリストを表示する<a class="headerlink" href="#_7" title="Permanent link">#</a></h2>
+<p>利用可能なスクリプトショートカットのリストを表示するには、<code>pdm run --list/-l</code> を使用します:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>$<span class="w"> </span>pdm<span class="w"> </span>run<span class="w"> </span>--list
+╭─────────────┬───────┬───────────────────────────╮
+│<span class="w"> </span>Name<span class="w">        </span>│<span class="w"> </span>Type<span class="w">  </span>│<span class="w"> </span>Description<span class="w">               </span>│
+├─────────────┼───────┼───────────────────────────┤
+│<span class="w"> </span>test_cmd<span class="w">    </span>│<span class="w"> </span>cmd<span class="w">   </span>│<span class="w"> </span>flask<span class="w"> </span>db<span class="w"> </span>upgrade<span class="w">          </span>│
+│<span class="w"> </span>test_script<span class="w"> </span>│<span class="w"> </span>call<span class="w">  </span>│<span class="w"> </span>call<span class="w"> </span>a<span class="w"> </span>python<span class="w"> </span><span class="k">function</span><span class="w">    </span>│
+│<span class="w"> </span>test_shell<span class="w">  </span>│<span class="w"> </span>shell<span class="w"> </span>│<span class="w"> </span>shell<span class="w"> </span><span class="nb">command</span><span class="w">             </span>│
+╰─────────────┴───────┴───────────────────────────╯
+</code></pre></div></td></tr></table></div>
+<p>スクリプトの説明を含む <code>help</code> オプションを追加すると、上記の出力の <code>Description</code> 列に表示されます。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>名前がアンダースコア（<code>_</code>）で始まるタスクは内部（ヘルパーなど）と見なされ、リストには表示されません。</p>
+</div>
+<h2 id="_8">プレ &amp; ポストスクリプト<a class="headerlink" href="#_8" title="Permanent link">#</a></h2>
+<p><code>npm</code> のように、PDM もプレおよびポストスクリプトによるタスクの構成をサポートしており、プレスクリプトは指定されたタスクの前に実行され、ポストスクリプトは後に実行されます。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">[tool.pdm.scripts]</span>
+<span class="n">pre_compress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;{{ `compress` スクリプトの前に実行 }}&quot;</span>
+<span class="n">compress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tar czvf compressed.tar.gz data/&quot;</span>
+<span class="n">post_compress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;{{ `compress` スクリプトの後に実行 }}&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>この例では、<code>pdm run compress</code> はこれらの 3 つのスクリプトを順番に実行します。</p>
+<div class="admonition note">
+<p class="admonition-title">パイプラインは早期に失敗します</p>
+<p>プレ - 自身 - ポストスクリプトのパイプラインでは、失敗が発生すると後続の実行がキャンセルされます。</p>
+</div>
+<h2 id="_9">フックスクリプト<a class="headerlink" href="#_9" title="Permanent link">#</a></h2>
+<p>特定の状況下で PDM はいくつかの特別なフックスクリプトを実行します:</p>
+<ul>
+<li><code>post_init</code>: <code>pdm init</code> の後に実行</li>
+<li><code>pre_install</code>: パッケージのインストール前に実行</li>
+<li><code>post_install</code>: パッケージのインストール後に実行</li>
+<li><code>pre_lock</code>: 依存関係の解決前に実行</li>
+<li><code>post_lock</code>: 依存関係の解決後に実行</li>
+<li><code>pre_build</code>: ディストリビューションのビルド前に実行</li>
+<li><code>post_build</code>: ディストリビューションのビルド後に実行</li>
+<li><code>pre_publish</code>: ディストリビューションの公開前に実行</li>
+<li><code>post_publish</code>: ディストリビューションの公開後に実行</li>
+<li><code>pre_script</code>: 任意のスクリプトの前に実行</li>
+<li><code>post_script</code>: 任意のスクリプトの後に実行</li>
+<li><code>pre_run</code>: スクリプトの呼び出し前に一度実行</li>
+<li><code>post_run</code>: スクリプトの呼び出し後に一度実行</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>プレ &amp; ポストスクリプトは引数を受け取ることができません。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">名前の競合を避ける</p>
+<p><code>[tool.pdm.scripts]</code> テーブルに <code>install</code> スクリプトが存在する場合、<code>pre_install</code> スクリプトは <code>pdm install</code> と <code>pdm run install</code> の両方によってトリガーされる可能性があります。したがって、予約された名前を使用しないことをお勧めします。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>複合タスクもプレおよびポストスクリプトを持つことができます。
+呼び出されたタスクはそれぞれのプレおよびポストスクリプトを実行します。</p>
+</div>
+<h2 id="_10">スクリプトのスキップ<a class="headerlink" href="#_10" title="Permanent link">#</a></h2>
+<p>スクリプトを実行するが、そのフックやプレおよびポストスクリプトを実行しない場合があるため、
+すべてのフック、プレおよびポストを無効にする <code>--skip=:all</code> があります。
+また、すべての <code>pre_*</code> フックをスキップする <code>--skip=:pre</code> とすべての <code>post_*</code> フックをスキップする <code>--skip=:post</code> もあります。</p>
+<p>プレスクリプトは必要だがポストスクリプトは不要な場合や、
+複合タスクのすべてのタスクを実行するが、1 つのタスクは実行しない場合があります。
+これらのユースケースのために、スキップするタスクやフックの名前のリストを受け入れるより詳細な <code>--skip</code> パラメータがあります。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>pdm<span class="w"> </span>run<span class="w"> </span>--skip<span class="w"> </span>pre_task1,task2<span class="w"> </span>my-composite
+</code></pre></div></td></tr></table></div>
+<p>このコマンドは <code>my-composite</code> タスクを実行し、<code>pre_task1</code> フックと <code>task2</code> およびそのフックをスキップします。</p>
+<p>スキップリストを <code>PDM_SKIP_HOOKS</code> 環境変数に提供することもできますが、<code>--skip</code> パラメータが指定されると上書きされます。</p>
+<p>フックとプレ/ポストスクリプトの動作に関する詳細は<a href="../hooks/">専用のフックページ</a> を参照してください。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+  <div id="readthedocs-embed-flyout"></div>
+  
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 <a href="https://frostming.com">Frost Ming</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pdm-project/pdm" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/pdm_project" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://discord.gg/Phn8smztpv" target="_blank" rel="noopener" title="discord.gg" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M524.531 69.836a1.5 1.5 0 0 0-.764-.7A485 485 0 0 0 404.081 32.03a1.82 1.82 0 0 0-1.923.91 338 338 0 0 0-14.9 30.6 447.9 447.9 0 0 0-134.426 0 310 310 0 0 0-15.135-30.6 1.89 1.89 0 0 0-1.924-.91 483.7 483.7 0 0 0-119.688 37.107 1.7 1.7 0 0 0-.788.676C39.068 183.651 18.186 294.69 28.43 404.354a2.02 2.02 0 0 0 .765 1.375 487.7 487.7 0 0 0 146.825 74.189 1.9 1.9 0 0 0 2.063-.676A348 348 0 0 0 208.12 430.4a1.86 1.86 0 0 0-1.019-2.588 321 321 0 0 1-45.868-21.853 1.885 1.885 0 0 1-.185-3.126 251 251 0 0 0 9.109-7.137 1.82 1.82 0 0 1 1.9-.256c96.229 43.917 200.41 43.917 295.5 0a1.81 1.81 0 0 1 1.924.233 235 235 0 0 0 9.132 7.16 1.884 1.884 0 0 1-.162 3.126 301.4 301.4 0 0 1-45.89 21.83 1.875 1.875 0 0 0-1 2.611 391 391 0 0 0 30.014 48.815 1.86 1.86 0 0 0 2.063.7A486 486 0 0 0 610.7 405.729a1.88 1.88 0 0 0 .765-1.352c12.264-126.783-20.532-236.912-86.934-334.541M222.491 337.58c-28.972 0-52.844-26.587-52.844-59.239s23.409-59.241 52.844-59.241c29.665 0 53.306 26.82 52.843 59.239 0 32.654-23.41 59.241-52.843 59.241m195.38 0c-28.971 0-52.843-26.587-52.843-59.239s23.409-59.241 52.843-59.241c29.667 0 53.307 26.82 52.844 59.239 0 32.654-23.177 59.241-52.844 59.241"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+  <div class="bot-container">
+    <a class="twemoji bot-button" href="javascript:void(0)" title="Ask bot about PDM">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M320 0c17.7 0 32 14.3 32 32v64h120c39.8 0 72 32.2 72 72v272c0 39.8-32.2 72-72 72H168c-39.8 0-72-32.2-72-72V168c0-39.8 32.2-72 72-72h120V32c0-17.7 14.3-32 32-32M208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16zM264 256a40 40 0 1 0-80 0 40 40 0 1 0 80 0m152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80M48 224h16v192H48c-26.5 0-48-21.5-48-48v-96c0-26.5 21.5-48 48-48m544 0c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48h-16V224z"/></svg>
+    </a>
+    <iframe
+      src="https://2prxfnwkygf4vexczrbpcq.streamlit.app/?embed=true"
+    ></iframe>
+  </div>
+  <script>
+    const botButton = document.querySelector('.bot-button');
+    const iFrame = document.querySelector('.bot-container > iframe');
+    const hideBot = () => {
+      iFrame.style.height = null;
+      botButton.style.display = 'block';
+      document.removeEventListener('click', hideBot);
+    }
+    botButton.addEventListener('click', (e) => {
+      const curHeight = window.getComputedStyle(iFrame).height;
+      const header = document.querySelector('.md-header');
+      const height = `calc(100vh - ${header.clientHeight + 120}px)`;
+      if (curHeight === '0px') {
+        iFrame.style.height = height;
+        botButton.style.display = 'none';
+        document.addEventListener('click', hideBot);
+      } else {
+        hideBot();
+      }
+      e.stopPropagation();
+    });
+    iFrame.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+    window.addEventListener('resize', (e) => {
+      if (iFrame.style.height) {
+        const header = document.querySelector('.md-header');
+        const height = `calc(100vh - ${header.clientHeight + 120}px)`;
+        iFrame.style.height = height;
+      }
+      e.stopPropagation();
+    })
+  </script>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="../../assets/_markdown_exec_pyodide.js"></script>
+      
+        <script src="../../assets/extra.js"></script>
+      
+    
+  </body>
+</html>
