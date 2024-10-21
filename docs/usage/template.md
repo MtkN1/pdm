@@ -1,50 +1,49 @@
-# Create Project From a Template
+# テンプレートからプロジェクトを作成する
 
-Similar to `yarn create` and `npm create`, PDM also supports initializing or creating a project from a template.
-The template is given as a positional argument of `pdm init`, in one of the following forms:
+`yarn create` や `npm create` と同様に、PDM もテンプレートからプロジェクトを初期化または作成することをサポートしています。
+テンプレートは `pdm init` の位置引数として次の形式のいずれかで指定されます:
 
-- `pdm init django` - Initialize the project from the template `https://github.com/pdm-project/template-django`
-- `pdm init https://github.com/frostming/pdm-template-django` - Initialize the project from a Git URL. Both HTTPS and SSH URL are acceptable.
-- `pdm init django@v2` - To check out the specific branch or tag. Full Git URL also supports it.
-- `pdm init /path/to/template` - Initialize the project from a template directory on local filesystem.
-- `pdm init minimal` - Initialize with the builtin "minimal" template, that only generates a `pyproject.toml`.
+- `pdm init django` - テンプレート `https://github.com/pdm-project/template-django` からプロジェクトを初期化します
+- `pdm init https://github.com/frostming/pdm-template-django` - Git URL からプロジェクトを初期化します。HTTPS および SSH URL の両方が許可されます。
+- `pdm init django@v2` - 特定のブランチまたはタグをチェックアウトします。完全な Git URL もサポートされています。
+- `pdm init /path/to/template` - ローカルファイルシステム上のテンプレートディレクトリからプロジェクトを初期化します。
+- `pdm init minimal` - 組み込みの "minimal" テンプレートで初期化し、`pyproject.toml` のみを生成します。
 
-And `pdm init` will use the default template built in.
+そして `pdm init` はデフォルトの組み込みテンプレートを使用します。
 
-The project will be initialized at the current directory, existing files with the same name will be overwritten. You can also use the `-p <path>` option to create a project at a new path.
+プロジェクトは現在のディレクトリに初期化され、同じ名前の既存のファイルは上書きされます。新しいパスでプロジェクトを作成するには、`-p <path>` オプションを使用することもできます。
 
-## Contribute a template
+## テンプレートに貢献する
 
-According to the first form of the template argument, `pdm init <name>` will refer to the template repository located at `https://github.com/pdm-project/template-<name>`. To contribute a template, you can create a template repository and establish a request to transfer the
-ownership to `pdm-project` organization(it can be found at the bottom of the repository settings page). The administrators of the organization will review the request and complete the subsequent steps. You will be added as the repository maintainer if the transfer is accepted.
+テンプレート引数の最初の形式に従って、`pdm init <name>` は `https://github.com/pdm-project/template-<name>` にあるテンプレートリポジトリを参照します。テンプレートに貢献するには、テンプレートリポジトリを作成し、所有権を `pdm-project` 組織に移管するリクエストを確立します（リポジトリ設定ページの下部にあります）。組織の管理者がリクエストをレビューし、後続の手順を完了します。移管が受け入れられた場合、リポジトリのメンテナーとして追加されます。
 
-## Requirements for a template
+## テンプレートの要件
 
-A template repository must be a pyproject-based project, which contains a `pyproject.toml` file with PEP-621 compliant metadata.
-No other special config files are required.
+テンプレートリポジトリは、PEP-621 準拠のメタデータを含む `pyproject.toml` ファイルを持つ pyproject ベースのプロジェクトである必要があります。
+他の特別な構成ファイルは必要ありません。
 
-## Project name replacement
+## プロジェクト名の置換
 
-On initialization, the project name in the template will be replaced by the name of the new project. This is done by a recursive full-text search and replace. The import name, which is derived from the project name by replacing all non-alphanumeric characters with underscores and lowercasing, will also be replaced in the same way.
+初期化時に、テンプレート内のプロジェクト名は新しいプロジェクトの名前に置き換えられます。これは再帰的な全文検索と置換によって行われます。プロジェクト名からすべての英数字以外の文字をアンダースコアに置き換え、小文字に変換したインポート名も同様に置き換えられます。
 
-For example, if the project name is `foo-project` in the template and you want to initialize a new project named `bar-project`, the following replacements will be made:
+たとえば、テンプレート内のプロジェクト名が `foo-project` で、新しいプロジェクト名を `bar-project` にしたい場合、次の置換が行われます:
 
-- `foo-project` -> `bar-project` in all `.md` files and `.rst` files
-- `foo_project` -> `bar_project` in all `.py` files
-- `foo_project` -> `bar_project` in the directory name
-- `foo_project.py` -> `bar_project.py` in the file name
+- すべての `.md` ファイルおよび `.rst` ファイル内の `foo-project` -> `bar-project`
+- すべての `.py` ファイル内の `foo_project` -> `bar_project`
+- ディレクトリ名内の `foo_project` -> `bar_project`
+- ファイル名内の `foo_project.py` -> `bar_project.py`
 
-Therefore, we don't support name replacement if the import name isn't derived from the project name.
+したがって、インポート名がプロジェクト名から派生していない場合、名前の置換はサポートされません。
 
-## Use other project generators
+## 他のプロジェクトジェネレーターを使用する
 
-If you are seeking for a more powerful project generator, you can use [cookiecutter](https://github.com/cookiecutter/cookiecutter) via `--cookiecutter` option and [copier](https://github.com/copier-org/copier) via `--copier` option.
+より強力なプロジェクトジェネレーターを探している場合は、`--cookiecutter` オプションを使用して [cookiecutter](https://github.com/cookiecutter/cookiecutter) を、`--copier` オプションを使用して [copier](https://github.com/copier-org/copier) を使用できます。
 
-You need to install `cookiecutter` and `copier` respectively to use them. You can do this by running `pdm self add <package>`.
-To use them:
+それぞれを使用するには `cookiecutter` および `copier` をインストールする必要があります。これを行うには、`pdm self add <package>` を実行します。
+使用するには:
 
 ```bash
 pdm init --cookiecutter gh:cjolowicz/cookiecutter-hypermodern-python
-# or
+# または
 pdm init --copier gh:pawamoy/copier-pdm --UNSAFE
 ```

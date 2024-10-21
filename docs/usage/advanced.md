@@ -1,11 +1,11 @@
-# Advanced Usage
+# 高度な使用法
 
-## Automatic Testing
+## 自動テスト
 
-### Use Tox as the runner
+### Tox をランナーとして使用する
 
-[Tox](https://tox.readthedocs.io/en/latest/) is a great tool for testing against multiple Python versions or dependency sets.
-You can configure a `tox.ini` like the following to integrate your testing with PDM:
+[Tox](https://tox.readthedocs.io/en/latest/) は、複数の Python バージョンや依存関係セットに対してテストを行うための優れたツールです。
+次のように `tox.ini` を構成して、PDM と統合することができます。
 
 ```ini
 [tox]
@@ -26,27 +26,23 @@ commands =
     flake8 src/
 ```
 
-To use the virtualenv created by Tox, you should make sure you have set `pdm config python.use_venv true`. PDM then will install
-dependencies from [`pdm lock`](../reference/cli.md#lock) into the virtualenv. In the dedicated venv you can directly run tools by `pytest tests/` instead
-of `pdm run pytest tests/`.
+Tox によって作成された仮想環境を使用するには、`pdm config python.use_venv true` を設定していることを確認する必要があります。PDM はその後、[`pdm lock`](../reference/cli.md#lock) からの依存関係を仮想環境にインストールします。専用の venv では、`pytest tests/` のように `pdm run pytest tests/` の代わりにツールを直接実行できます。
 
-You should also make sure you don't run `pdm add/pdm remove/pdm update/pdm lock` in the test commands, otherwise the [`pdm lock`](../reference/cli.md#lock)
-file will be modified unexpectedly. Additional dependencies can be supplied with the `deps` config. Besides, `isolated_build` and `passenv`
-config should be set as the above example to make PDM work properly.
+テストコマンドで `pdm add/pdm remove/pdm update/pdm lock` を実行しないようにする必要があります。そうしないと、[`pdm lock`](../reference/cli.md#lock) ファイルが予期せず変更されます。追加の依存関係は `deps` 設定で指定できます。さらに、`isolated_build` と `passenv` 設定を上記の例のように設定して、PDM が正しく動作するようにする必要があります。
 
-To get rid of these constraints, there is a Tox plugin [tox-pdm](https://github.com/pdm-project/tox-pdm) which can ease the usage. You can install it by
+これらの制約を取り除くために、使用を容易にする Tox プラグイン [tox-pdm](https://github.com/pdm-project/tox-pdm) があります。次のコマンドでインストールできます。
 
 ```bash
 pip install tox-pdm
 ```
 
-Or,
+または、
 
 ```bash
 pdm add --dev tox-pdm
 ```
 
-And you can make the `tox.ini` much tidier as following, :
+そして、`tox.ini` を次のように整理できます。
 
 ```ini
 [tox]
@@ -63,13 +59,13 @@ commands =
     flake8 src/
 ```
 
-See the [project's README](https://github.com/pdm-project/tox-pdm) for a detailed guidance.
+詳細なガイダンスについては、[プロジェクトの README](https://github.com/pdm-project/tox-pdm) を参照してください。
 
-### Use Nox as the runner
+### Nox をランナーとして使用する
 
-[Nox](https://nox.thea.codes/) is another great tool for automated testing. Unlike tox, Nox uses a standard Python file for configuration.
+[Nox](https://nox.thea.codes/) は、もう一つの優れた自動テストツールです。Tox とは異なり、Nox は設定に標準の Python ファイルを使用します。
 
-It is much easier to use PDM in Nox, here is an example of `noxfile.py`:
+Nox で PDM を使用するのは非常に簡単です。以下は `noxfile.py` の例です。
 
 ```python hl_lines="4"
 import os
@@ -88,27 +84,26 @@ def lint(session):
     session.run('flake8', '--import-order-style', 'google')
 ```
 
-Note that `PDM_IGNORE_SAVED_PYTHON` should be set so that PDM can pick up the Python in the virtualenv correctly. Also make sure `pdm` is available in the `PATH`.
-Before running nox, you should also ensure configuration item `python.use_venv` is true to enable venv reusing.
+`PDM_IGNORE_SAVED_PYTHON` を設定して、PDM が仮想環境内の Python を正しく認識できるようにする必要があります。また、`pdm` が `PATH` に存在することを確認してください。
+Nox を実行する前に、`python.use_venv` 設定項目が true に設定されていることを確認して、venv の再利用を有効にしてください。
 
-### About PEP 582 `__pypackages__` directory
+### PEP 582 `__pypackages__` ディレクトリについて
 
-By default, if you run tools by [`pdm run`](../reference/cli.md#run), `__pypackages__` will be seen by the program and all subprocesses created by it. This means virtual environments created by those tools are also aware of the packages inside `__pypackages__`, which result in unexpected behavior in some cases.
-For `nox`, you can avoid this by adding a line in `noxfile.py`:
+デフォルトでは、[`pdm run`](../reference/cli.md#run) を使用してツールを実行すると、`__pypackages__` がプログラムおよびそれによって作成されたすべてのサブプロセスによって認識されます。これは、これらのツールによって作成された仮想環境も `__pypackages__` 内のパッケージを認識することを意味し、いくつかのケースで予期しない動作を引き起こします。
+`nox` では、`noxfile.py` に次の行を追加することでこれを回避できます。
 
 ```python
 os.environ.pop("PYTHONPATH", None)
 ```
 
-For `tox`, `PYTHONPATH` will not be passed to the test sessions so this isn't going to be a problem. Moreover, it is recommended to make `nox` and `tox` live in their own pipx environments so you don't need to install for every project. In this case, PEP 582 packages will not be a problem either.
+`tox` では、`PYTHONPATH` はテストセッションに渡されないため、これは問題になりません。さらに、`nox` と `tox` をそれぞれの pipx 環境に配置して、すべてのプロジェクトにインストールする必要がないようにすることをお勧めします。この場合、PEP 582 パッケージも問題になりません。
 
-## Use PDM in Continuous Integration
+## 継続的インテグレーションで PDM を使用する
 
-Only one thing to keep in mind -- PDM can't be installed on Python < 3.7, so if your project is to be tested on those Python versions,
-you have to make sure PDM is installed on the correct Python version, which can be different from the target Python version the particular job/task is run on.
+覚えておくべきことは一つだけです -- PDM は Python < 3.7 ではインストールできないため、これらの Python バージョンでプロジェクトをテストする場合は、特定のジョブ/タスクが実行されるターゲット Python バージョンとは異なる Python バージョンで PDM がインストールされていることを確認する必要があります。
 
-Fortunately, if you are using GitHub Action, there is [pdm-project/setup-pdm](https://github.com/marketplace/actions/setup-pdm) to make this process easier.
-Here is an example workflow of GitHub Actions, while you can adapt it for other CI platforms.
+幸いなことに、GitHub Action を使用している場合、これを簡単にするための [pdm-project/setup-pdm](https://github.com/marketplace/actions/setup-pdm) があります。
+以下は GitHub Actions のワークフローの例ですが、他の CI プラットフォームに適応させることができます。
 
 ```yaml
 Testing:
@@ -134,22 +129,21 @@ Testing:
 ```
 
 !!! important "TIPS"
-    For GitHub Action users, there is a [known compatibility issue](https://github.com/actions/virtual-environments/issues/2803) on Ubuntu virtual environment.
-    If PDM parallel install is failed on that machine you should either set `parallel_install` to `false` or set env `LD_PRELOAD=/lib/x86_64-linux-gnu/libgcc_s.so.1`.
-    It is already handled by the `pdm-project/setup-pdm` action.
+    GitHub Action ユーザー向けに、Ubuntu 仮想環境での[既知の互換性の問題](https://github.com/actions/virtual-environments/issues/2803)があります。
+    PDM の並列インストールがそのマシンで失敗した場合、`parallel_install` を `false` に設定するか、`LD_PRELOAD=/lib/x86_64-linux-gnu/libgcc_s.so.1` 環境変数を設定する必要があります。
+    これは `pdm-project/setup-pdm` アクションによって既に処理されています。
 
 !!! note
-    If your CI scripts run without a proper user set, you might get permission errors when PDM tries to create its cache directory.
-    To work around this, you can set the HOME environment variable yourself, to a writable directory, for example:
+    CI スクリプトが適切なユーザー設定なしで実行される場合、PDM がキャッシュディレクトリを作成しようとするときに権限エラーが発生する可能性があります。
+    これを回避するには、書き込み可能なディレクトリに HOME 環境変数を設定できます。例えば：
 
     ```bash
     export HOME=/tmp/home
     ```
 
-## Use PDM in a multi-stage Dockerfile
+## マルチステージ Dockerfile で PDM を使用する
 
-It is possible to use PDM in a multi-stage Dockerfile to first install the project and dependencies into `__pypackages__`
-and then copy this folder into the final stage, adding it to `PYTHONPATH`.
+PDM をマルチステージ Dockerfile で使用して、最初にプロジェクトと依存関係を `__pypackages__` にインストールし、次にこのフォルダーを最終ステージにコピーし、`PYTHONPATH` に追加することができます。
 
 ```dockerfile
 ARG PYTHON_BASE=3.10-slim
@@ -179,9 +173,9 @@ COPY src /project/src
 CMD ["python", "src/__main__.py"]
 ```
 
-## Use PDM to manage a monorepo
+## モノレポを管理するために PDM を使用する
 
-With PDM, you can have multiple sub-packages within a single project, each with its own `pyproject.toml` file. And you can create only one `pdm.lock` file to lock all dependencies. The sub-packages can have each other as their dependencies. To achieve this, follow these steps:
+PDM を使用すると、単一のプロジェクト内に複数のサブパッケージを持つことができ、それぞれに独自の `pyproject.toml` ファイルを持つことができます。そして、すべての依存関係をロックするために 1 つの `pdm.lock` ファイルを作成するだけです。サブパッケージはお互いを依存関係として持つことができます。これを実現するための手順は次のとおりです。
 
 `project/pyproject.toml`:
 
@@ -208,17 +202,17 @@ dependencies = ["foo-core"]
 dependencies = ["foo-core"]
 ```
 
-Now, run `pdm install` in the project root, and you will get a `pdm.lock` with all dependencies locked. All sub-packages will be installed in editable mode.
+次に、プロジェクトのルートで `pdm install` を実行すると、すべての依存関係がロックされた `pdm.lock` が作成されます。すべてのサブパッケージは編集可能モードでインストールされます。
 
-Look at the [🚀 Example repository](https://github.com/pdm-project/pdm-example-monorepo) for more details.
+詳細については、[🚀 例のリポジトリ](https://github.com/pdm-project/pdm-example-monorepo) を参照してください。
 
-## Hooks for `pre-commit`
+## `pre-commit` のフック
 
-[`pre-commit`](https://pre-commit.com/) is a powerful framework for managing git hooks in a centralized fashion. PDM already uses `pre-commit` [hooks](https://github.com/pdm-project/pdm/blob/main/.pre-commit-config.yaml) for its internal QA checks. PDM exposes also several hooks that can be run locally or in CI pipelines.
+[`pre-commit`](https://pre-commit.com/) は、git フックを集中管理するための強力なフレームワークです。PDM はすでに内部 QA チェックのために `pre-commit` [フック](https://github.com/pdm-project/pdm/blob/main/.pre-commit-config.yaml) を使用しています。PDM はローカルまたは CI パイプラインで実行できるいくつかのフックも公開しています。
 
-### Export `requirements.txt`
+### `requirements.txt` をエクスポートする
 
-This hook wraps the command `pdm export` along with any valid argument. It can be used as a hook (e.g., for CI) to ensure that you are going to check in the codebase a `requirements.txt`, which reflects the actual content of [`pdm lock`](../reference/cli.md#lock).
+このフックは、`pdm export` コマンドと任意の有効な引数をラップします。これは、[`pdm lock`](../reference/cli.md#lock) の実際の内容を反映する `requirements.txt` をコードベースにチェックインすることを保証するためのフック（例：CI）として使用できます。
 
 ```yaml
 # export python requirements
@@ -231,9 +225,9 @@ This hook wraps the command `pdm export` along with any valid argument. It can b
       files: ^pdm.lock$
 ```
 
-### Check `pdm.lock` is up to date with pyproject.toml
+### `pdm.lock` が pyproject.toml と一致していることを確認する
 
-This hook wraps the command `pdm lock --check` along with any valid argument. It can be used as a hook (e.g., for CI) to ensure that whenever `pyproject.toml` has a dependency added/changed/removed, that `pdm.lock` is also up to date.
+このフックは、`pdm lock --check` コマンドと任意の有効な引数をラップします。これは、`pyproject.toml` に依存関係が追加/変更/削除された場合に `pdm.lock` も最新であることを確認するためのフック（例：CI）として使用できます。
 
 ```yaml
 - repo: https://github.com/pdm-project/pdm
@@ -242,9 +236,9 @@ This hook wraps the command `pdm lock --check` along with any valid argument. It
     - id: pdm-lock-check
 ```
 
-### Sync current working set with `pdm.lock`
+### 現在の作業セットを `pdm.lock` と同期する
 
-This hook wraps the command `pdm sync` along with any valid argument. It can be used as a hook to ensure that your current working set is synced with `pdm.lock` whenever you checkout or merge a branch. Add *keyring* to `additional_dependencies` if you want to use your systems credential store.
+このフックは、任意の有効な引数とともに `pdm sync` コマンドをラップします。これは、ブランチをチェックアウトまたはマージするたびに現在の作業セットが `pdm.lock` と同期されることを保証するためのフックとして使用できます。システムの資格情報ストアを使用する場合は、*keyring* を `additional_dependencies` に追加します。
 
 ```yaml
 - repo: https://github.com/pdm-project/pdm
